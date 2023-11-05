@@ -1,3 +1,35 @@
+# Learner
+
+Rakenduse eesmärgiks on anda kasutajale võimaluse testida oma teadmisi mingis konkreetses valdkonnas.
+
+Rakendus võimaldab vastata erinevatele küsimustikele. Peale vastamist annab rakendus mingis vormis tagasiside, mille kaudu on kasutajal võimalik aru saada, mis läks hästi, mis halvasti, ning kuidas ta oma teadmisi arendama peaks.
+
+Rakendus võimaldab ka ise küsimustikke luua. Igaüks saab oma konto alt luua uusi eneseteste ning soovi korral neid ka avalikustada.
+Kõik küsimustikud on kategoriseeritud teemade kaupa.
+
+## Projekti autorid
+
+Märten Treier, Kristel Kolkanen, Stella-Marii Roosileht
+
+## Wireframe'd
+
+<img alt="Wireframe" src="wireframe.png">
+
+## Funktsionaalsused
+
+- Kasutajakonto loomine, kuvamine, muutmine, kustutamine (sh kasutajanimi, parool, meiliaadress, emakeel)
+- Kontoga sisse- ja väljalogimine
+
+* Küsimustiku loomine, kuvamine, muutmine, kustutamine (sh pealkiri, kirjeldus, kategooria, keel, privaatsus)
+* Küsimustiku kasutajakonto ajalukku salvestamine, lemmikuks märkimine (sh võimalus näha sinna lisatud küsimustikke)
+* Küsimustike kuvamine soovitusloendist, pealkirja, kategooria või autori nime kaudu otsingut tehes
+
+- Küsimuste loomine, kuvamine, muutmine, kustutamine (sh küsimus, vastus, pilt, jkNr)
+- Küsimustele vastamine, nende vahel navigeerimine, küsitluse lõpetamine
+- Tagasiside (tulemuste) kuvamine peale küsitluse lõpetamist (sh statistika, enda ja õiged vastused)
+
+# Next.js ja Supabase (võib hiljem ära kustutada)
+
 <a href="https://demo-nextjs-with-supabase.vercel.app/">
   <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
   <h1 align="center">Next.js and Supabase Starter Kit</h1>
