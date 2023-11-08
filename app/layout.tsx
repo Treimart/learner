@@ -1,5 +1,6 @@
 import { GeistSans } from 'geist/font'
 import './globals.css'
+import Link from 'next/link'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -20,6 +21,13 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className}>
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
+          <nav>
+          <Link href="/">Home </Link>
+          <Link href="/profile">Profile </Link>
+          <Link href="/form">Form </Link>
+          <Link href="/createForm">Create form </Link>
+          <Link href="/login">Login</Link>
+          </nav>
           {children}
         </main>
       </body>
