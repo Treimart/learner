@@ -1,33 +1,71 @@
-import { GeistSans } from 'geist/font'
-import './globals.css'
-import Link from 'next/link'
+import { GeistSans } from "geist/font"
+import "./globals.css"
+import Link from "next/link"
+import AppBar from "@mui/material/AppBar"
+import { Toolbar, Button, Box, TextField } from "@mui/material"
+import SearchIcon from "@mui/icons-material/Search"
+import PersonIcon from "@mui/icons-material/Person"
+import AddIcon from "@mui/icons-material/Add"
+import HomeIcon from "@mui/icons-material/Home"
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : 'http://localhost:3000'
+  : "http://localhost:3000"
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: 'Next.js and Supabase Starter Kit',
-  description: 'The fastest way to build apps with Next.js and Supabase',
+  title: "Next.js and Supabase Starter Kit",
+  description: "The fastest way to build apps with Next.js and Supabase"
 }
 
 export default function RootLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={GeistSans.className}>
+    <html
+      lang="en"
+      className={GeistSans.className}
+    >
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
-          <nav>
-          <Link href="/">Home </Link>
-          <Link href="/profile">Profile </Link>
-          <Link href="/form">Form </Link>
-          <Link href="/createForm">Create form </Link>
-          <Link href="/login">Login</Link>
-          </nav>
+          <AppBar>
+            <Toolbar>
+              <Button
+                color="inherit"
+                href="/"
+              >
+                <HomeIcon />
+                Home
+              </Button>
+              <Box sx={{ flexGrow: 1 }} />
+              <Button
+                color="inherit"
+                href="/"
+              >
+                <AddIcon />
+                Create
+              </Button>
+              <Box sx={{ marginRight: 1 }} />
+              <TextField
+                variant="outlined"
+                placeholder="Search"
+                InputProps={{
+                  startAdornment: <SearchIcon />,
+                  style: { color: "white" }
+                }}
+              />
+              <Box sx={{ marginRight: 1 }} />
+              <Button
+                color="inherit"
+                href="/"
+              >
+                <PersonIcon />
+                Login
+              </Button>
+            </Toolbar>
+          </AppBar>
           {children}
         </main>
       </body>
