@@ -1,6 +1,7 @@
 import { GeistSans } from "geist/font"
 import "./globals.css"
-import Link from "next/link"
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 import AppBar from "@mui/material/AppBar"
 import { Toolbar, Button, Box, TextField } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
@@ -18,11 +19,17 @@ export const metadata = {
   description: "The fastest way to build apps with Next.js and Supabase"
 }
 
-export default function RootLayout({
-  children
+export default async function RootLayout({
+  children,
 }: {
   children: React.ReactNode
 }) {
+  const supabase = createServerComponentClient({ cookies })
+
+  const {
+  data: { user },
+} = await supabase.auth.getUser();
+
   return (
     <html
       lang="en"
@@ -42,7 +49,7 @@ export default function RootLayout({
               <Box sx={{ flexGrow: 1 }} />
               <Button
                 color="inherit"
-                href="/"
+                href="/createForm"
               >
                 <AddIcon />
                 Create
@@ -57,13 +64,23 @@ export default function RootLayout({
                 }}
               />
               <Box sx={{ marginRight: 1 }} />
+              {user ? (
               <Button
                 color="inherit"
-                href="/"
+                href="/profile"
               >
-                <PersonIcon />
+              <PersonIcon />
+                Profile
+              </Button>
+              ) : (
+              <Button
+                color="inherit"
+                href="/login"
+              >
+              <PersonIcon />
                 Login
               </Button>
+              )}
             </Toolbar>
           </AppBar>
           {children}
