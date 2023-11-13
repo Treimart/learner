@@ -70,7 +70,6 @@ export default async function RootLayout({
                 href="/profile"
               >
               <PersonIcon />
-                Profile
               </Button>
               ) : (
               <Button
