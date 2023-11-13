@@ -47,13 +47,16 @@ export default async function RootLayout({
                 Home
               </Button>
               <Box sx={{ flexGrow: 1 }} />
-              <Button
+              {user ? (
+                <Button
                 color="inherit"
                 href="/createForm"
               >
                 <AddIcon />
-                Create
               </Button>
+              ) : (
+                null
+              )}
               <Box sx={{ marginRight: 1 }} />
               <TextField
                 variant="outlined"
