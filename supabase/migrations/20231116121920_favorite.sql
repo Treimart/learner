@@ -1,4 +1,4 @@
 create table
-favorite (
-  /* user_id bigint not null references user, */
-);
+favorite ();
+
+alter table favorite enable row level security;
