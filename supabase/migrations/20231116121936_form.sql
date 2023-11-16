@@ -1,7 +1,6 @@
 create table
 form (
   id bigint primary key generated always as identity,
-  /* user_id bigint not null references user, */
   category_id bigint not null references category,
   title text not null,
   description text,
@@ -13,4 +12,6 @@ form (
 );
 
 alter table favorite
-  add column form_id bigint not null references form
+  add column form_id bigint not null references form;
+
+alter table form enable row level security;

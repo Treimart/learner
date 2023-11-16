@@ -7,3 +7,5 @@ question (
   photo_url text,
   is_evaluable boolean not null
 );
+
+alter table question enable row level security;
