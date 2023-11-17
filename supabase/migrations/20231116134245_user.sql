@@ -2,7 +2,6 @@ create table
 public.user (
   user_id uuid not null primary key references auth.users on delete cascade,
   username text,
-  is_deleted boolean,
   deleted timestamp
 );
 
