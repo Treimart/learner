@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
 
 import InspirationalQuote from "../components/InspirationalQuote"
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 
 export default async function Index() {
   const cookieStore = cookies()
