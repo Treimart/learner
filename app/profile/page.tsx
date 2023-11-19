@@ -1,12 +1,64 @@
-import AuthButton from "@/components/AuthButton"
+import AuthButton from '@/components/AuthButton';
+import { Box, Container, Grid } from '@mui/material';
+import { createClient } from '@/utils/supabase/server'
+import { cookies } from 'next/headers'
 
-export default function Profile() {
+export default async function Profile() {
+
+  const cookieStore = cookies()
+  const supabase = createClient(cookieStore)
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const renderUserInfoAndActions = (userInfoArray: any[]) => {
+    const userInfoItems = userInfoArray.map((info, index) => (
+      <Box key={index} sx={{ margin: '3vh 0 3vh 0' }}>{info}</Box>
+    ));
+
+    return (
+      <div>
+        {userInfoItems}
+      </div>
+    );
+  };
+
+  const renderUserHistoryAndFavorites = (userHistoryArray: any[]) => {
+    const userHistoryItems = userHistoryArray.map((info, index) => (
+      <Box key={index} sx={{ margin: '3vh 0 3vh 0' }}>{info}</Box>
+    ));
+
+    return (
+      <div>
+        {userHistoryItems}
+      </div>
+    )
+  }
+
+  let userInfoArray: string[] = ["Kasutajanimi: John Doe"];
+  if (user && user.email) {
+    userInfoArray = ["Kasutajanimi: John Doe", `Email: ${user.email}`];
+  }
+  const userHistoryArray = ["Ajalugu", "Lemmikud", "Minu küsimustikud"];
+
   return (
-  <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-    <h1>Profile page</h1>
-    <div>
-      <AuthButton/>
-    </div>
-  </div>
-  )
+    <Container sx={{ width: '100%' }}>
+      PROFIILI ANDMED
+      <Grid container spacing={2}>
+      <Grid item xs={6}>
+        {renderUserInfoAndActions(userInfoArray)}
+        <Box sx={{ margin: '3vh 0 3vh 0' }}>
+          <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Muuda parooli</button>
+        </Box>
+        <Box sx={{ margin: '3vh 0 3vh 0' }}>
+          <AuthButton/>
+        </Box>
+      </Grid>
+      <Grid item xs={6}>
+        {renderUserHistoryAndFavorites(userHistoryArray)}
+      </Grid>
+    </Grid>
+    </Container>
+  );
 }
