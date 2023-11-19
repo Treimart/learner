@@ -7,7 +7,6 @@ form (
   status int not null,
   created timestamp not null,
   updated timestamp,
-  is_deleted boolean not null,
   deleted timestamp
 );
 
