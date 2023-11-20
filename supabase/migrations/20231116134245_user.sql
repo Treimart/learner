@@ -9,7 +9,7 @@ alter table favorite
   add column user_id uuid not null references public.user;
 
 alter table form
-  add column user_id uuid not null references public.user;
+  add column user_id uuid references public.user;
 
 alter table history
   add column user_id uuid not null references public.user;
