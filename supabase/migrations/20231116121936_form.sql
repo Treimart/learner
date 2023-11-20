@@ -14,3 +14,7 @@ alter table favorite
   add column form_id bigint not null references form;
 
 alter table form enable row level security;
+
+create policy "Forms are viewable by everyone."
+  on public.form for select
+using ( true );

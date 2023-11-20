@@ -5,3 +5,7 @@ category (
 );
 
 alter table category enable row level security;
+
+create policy "Categories are viewable by everyone."
+  on public.category for select
+  using ( true );
