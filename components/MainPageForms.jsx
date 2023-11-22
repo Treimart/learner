@@ -3,7 +3,7 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Box, Typography, Button } from '@mui/material'
+import { Typography, Button, Grid } from '@mui/material'
 
 
 export default function MainPageCategories() {
@@ -44,16 +44,13 @@ export default function MainPageCategories() {
 
   //console.log(forms[0].category_id)
 	return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'row',
-      }}
-    >
+    <Grid container spacing={2}>
       {categories.map(({id: catID, name}) => (
-        <Box 
+        <Grid item
           key={catID}
           sx={{
+            display: 'flex',
+            flexDirection: 'column',
             border: 1,
             borderColor: 'primary.main',
             boxShadow: 1,
@@ -66,13 +63,24 @@ export default function MainPageCategories() {
           <Typography key={catID} variant='h5'>{name}</Typography>
 
           {forms.filter(form => form.category_id == catID).map(({id: formID, title}) => (
-            <Button color="primary" variant="contained" onClick={() => router.push('/form/'+formID)} key={formID}>{title}</Button>
+            <Button 
+              style={{justifyContent: "flex-start"}}
+              sx={{
+                width: 'fit-content'
+              }}
+              color="primary" 
+              variant="contained" 
+              onClick={() => router.push('/form/'+formID)} 
+              key={formID}
+            >
+                {title}
+            </Button>
           ))}
 
-        </Box>
+        </Grid>
       ))}
-      
-    </Box>
+    </Grid>
+
     
   )
 }
