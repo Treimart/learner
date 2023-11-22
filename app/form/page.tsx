@@ -1,6 +1,5 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
-import { Box, Button, TextField } from "@mui/material"
 
 export const dynamic = "force-dynamic"
 
