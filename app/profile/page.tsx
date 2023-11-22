@@ -36,9 +36,9 @@ export default async function Profile() {
     )
   }
 
-  let userInfoArray: string[] = ["Kasutajanimi: John Doe"];
+  let userInfoArray: string[] = [" "];
   if (user && user.email) {
-    userInfoArray = ["Kasutajanimi: John Doe", `Email: ${user.email}`];
+    userInfoArray = [`Email: ${user.email}`];
   }
   const userHistoryArray = ["Ajalugu", "Lemmikud", "Minu küsimustikud"];
 
