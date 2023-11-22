@@ -6,11 +6,16 @@ export const dynamic = "force-dynamic"
 export default async function ServerComponent() {
   const supabase = createServerComponentClient({ cookies })
 
-  const { data: question } = await supabase.from("question").select()
+  const { data: questions } = await supabase
+    .from("question")
+    .select()
+    .eq("form_id", 1)
+
+  console.log(questions)
 
   return (
     <div>
-      <pre>{JSON.stringify(question, null, 2)}</pre>
+      <pre>{JSON.stringify(questions, null, 2)}</pre>
     </div>
   )
 }
