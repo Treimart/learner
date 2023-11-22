@@ -29,7 +29,7 @@ export default async function RootLayout({
       <body className="bg-background text-foreground">
         <main className="min-h-screen flex flex-col items-center">
           <Navbar />
-          <Container maxWidth="sm" style={{ marginTop: '10rem' }}>
+          <Container style={{ marginTop: '10rem' }}>
               {children}
           </Container>
         </main>
