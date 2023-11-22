@@ -9,3 +9,7 @@ question (
 );
 
 alter table question enable row level security;
+
+create policy "Questions are viewable by everyone."
+  on public.question for select
+using ( true );
