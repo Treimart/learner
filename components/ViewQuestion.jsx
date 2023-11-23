@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
+import { Box, Button, Typography } from '@mui/material'
+
+
 export default function ViewQuestion() {
   const supabase = createClientComponentClient()
   const router = useRouter()
@@ -14,6 +17,7 @@ export default function ViewQuestion() {
 
   const [questions, setQuestions] = useState([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [formData, setFormData] = useState('');
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -27,6 +31,21 @@ export default function ViewQuestion() {
     }
     getQuestions()
   }, [supabase, setQuestions])
+
+  useEffect(() => {
+    const getFormData = async () => {
+      const { data } = await supabase
+        .from("form")
+        .select(`id, title, category(name)`)
+        .eq("id", form_id);
+      if (data.length > 0) {
+        setFormData(data[0]);
+      }
+    };
+    getFormData();
+  }, [supabase, form_id]);
+
+  const formTitle = formData.title
 
   // Handlers for next and previous buttons
   const handleNext = () => {
@@ -45,30 +64,64 @@ export default function ViewQuestion() {
   const currentQuestion = questions[currentQuestionIndex]
 
   return (
-    <div>
+    <Box>
+      <Typography variant="h1">{formTitle}</Typography>
+      {questions.map(({id: questionID}, i) => (
+        <Button 
+          variant="contained"
+          key={questionID}
+          onClick={() => setCurrentQuestionIndex(i)}
+          sx={{
+            backgroundColor: currentQuestionIndex === i ? "#f50057" : null, // Change background color for active button
+            color: currentQuestionIndex === i ? "white" : null, // Change text color for active button
+            "&:hover": {
+              backgroundColor: currentQuestionIndex === i ? "#f50057" : null, // Change background color for active button on hover
+            },
+          }}
+        >
+          {i+1}
+        </Button>
+      ))}
       {currentQuestion && (
         <>
-          <h1>{currentQuestion.title}</h1>
+          <Typography variant="h2">{currentQuestion.title}</Typography>
           {currentQuestion.photo_url && (
             <img
               src={currentQuestion.photo_url}
               alt={currentQuestion.title}
             />
           )}
-          <button
-            onClick={handlePrevious}
+          <Button
+            color="primary" 
+            variant="contained" 
+            onClick={handlePrevious} 
             disabled={currentQuestionIndex === 0}
+            sx={{
+              "&.Mui-disabled": {
+                background: "secondary",
+                color: "#c0c0c0"
+              }
+            }}
           >
             Previous
-          </button>
-          <button
-            onClick={handleNext}
+          </Button>
+
+          <Button
+            color="primary" 
+            variant="contained" 
+            onClick={handleNext} 
             disabled={currentQuestionIndex === questions.length - 1}
+            sx={{
+              "&.Mui-disabled": {
+                background: "secondary",
+                color: "#c0c0c0"
+              }
+            }}
           >
             Next
-          </button>
+          </Button>
         </>
       )}
-    </div>
+    </Box>
   )
 }
