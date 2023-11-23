@@ -2,8 +2,6 @@
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button, FormControl, TextField } from "@mui/material";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
 import { useEffect, useState } from "react";
 
 export default function CreateForm() {
@@ -20,7 +18,6 @@ export default function CreateForm() {
       const { data } = await supabase.from("category").select();
       if (data) {
         setCategories(data);
-        console.log(data);
       }
     };
     getCategories();
@@ -38,6 +35,11 @@ export default function CreateForm() {
 
   const saveNewForm = async () => {
     try {
+      if (!user) {
+        console.error("User is not authenticated");
+        return;
+      }
+
       const { data: newForm, error } = await supabase.from("form").insert([
         {
           category_id: selectedCategoryId,
@@ -58,10 +60,6 @@ export default function CreateForm() {
       console.error("An error occurred:", error.message);
     }
   };
-
-  if (!user) {
-    return <p>User not authenticated</p>;
-  }
 
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
@@ -86,21 +84,21 @@ export default function CreateForm() {
           onChange={(e) => setFormDescription(e.target.value)}
         />
         <br />
-        <Select
+        <select
           placeholder="Vali kategooria"
           size="lg"
           variant="plain"
           color="neutral"
           id="categorySelect"
           value={selectedCategoryId}
-          onChange={(e) => setSelectedCategoryId(e.target.value)}
+          onChange={(e) => setSelectedCategoryId(e.target.value || "")}
         >
           {categories.map(({ id, name }) => (
-            <Option key={id} value={id}>
+            <option key={id} value={id}>
               {name}
-            </Option>
+            </option>
           ))}
-        </Select>
+        </select>
         <br />
 
         <Button onClick={saveNewForm}>Loo küsimustik</Button>
