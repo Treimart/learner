@@ -68,7 +68,8 @@ export default function ViewQuestion() {
   }
 
   const handleFinish = () => {
-    console.log(answers)
+    localStorage.setItem("answers", JSON.stringify(answers))
+    router.push("/results/")
   }
 
   // Get the current question
@@ -114,7 +115,7 @@ export default function ViewQuestion() {
             }}
           />
           <br />
-          {/* ... existing code ... */}
+
           <Button
             color="primary"
             variant="contained"
