@@ -49,6 +49,7 @@ export default function ResultsPage() {
             <h2>Question: {title}</h2>
             <p>Your Answer: {String(answer)}</p>
             {correctAnswer && <p>Correct Answer: {correctAnswer}</p>}
+            <br />
           </div>
         )
       )}
