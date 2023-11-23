@@ -70,7 +70,7 @@ export default function MainPageCategories() {
               }}
               color="primary" 
               variant="contained" 
-              onClick={() => router.push('/form/'+formID)} 
+              onClick={() => router.push('/form?form_id='+formID)} 
               key={formID}
             >
                 {title}
