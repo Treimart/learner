@@ -48,7 +48,10 @@ export default function ViewQuestion() {
   const handleAnswerChange = e => {
     setAnswers({
       ...answers,
-      [currentQuestion.id]: e.target.value
+      [currentQuestion.id]: {
+        answer: e.target.value,
+        title: currentQuestion.title
+      }
     })
   }
 
@@ -108,7 +111,7 @@ export default function ViewQuestion() {
             label="Answer"
             variant="outlined"
             placeholder="enter your answer"
-            value={answers[currentQuestion.id] || ""}
+            value={answers[currentQuestion.id]?.answer || ""}
             onChange={handleAnswerChange}
             inputProps={{
               style: { color: "white" }
