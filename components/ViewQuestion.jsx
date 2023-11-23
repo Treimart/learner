@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { Box, Button, Typography } from '@mui/material'
-
+import { Box, Button, Typography, TextField } from "@mui/material"
 
 export default function ViewQuestion() {
   const supabase = createClientComponentClient()
@@ -17,7 +16,8 @@ export default function ViewQuestion() {
 
   const [questions, setQuestions] = useState([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [formData, setFormData] = useState('');
+  const [formData, setFormData] = useState("")
+  const [answers, setAnswers] = useState({})
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -37,13 +37,20 @@ export default function ViewQuestion() {
       const { data } = await supabase
         .from("form")
         .select(`id, title, category(name)`)
-        .eq("id", form_id);
+        .eq("id", form_id)
       if (data.length > 0) {
-        setFormData(data[0]);
+        setFormData(data[0])
       }
-    };
-    getFormData();
-  }, [supabase, form_id]);
+    }
+    getFormData()
+  }, [supabase, form_id])
+
+  const handleAnswerChange = e => {
+    setAnswers({
+      ...answers,
+      [currentQuestion.id]: e.target.value
+    })
+  }
 
   const formTitle = formData.title
 
@@ -66,8 +73,8 @@ export default function ViewQuestion() {
   return (
     <Box>
       <Typography variant="h1">{formTitle}</Typography>
-      {questions.map(({id: questionID}, i) => (
-        <Button 
+      {questions.map(({ id: questionID }, i) => (
+        <Button
           variant="contained"
           key={questionID}
           onClick={() => setCurrentQuestionIndex(i)}
@@ -75,11 +82,11 @@ export default function ViewQuestion() {
             backgroundColor: currentQuestionIndex === i ? "#f50057" : null, // Change background color for active button
             color: currentQuestionIndex === i ? "white" : null, // Change text color for active button
             "&:hover": {
-              backgroundColor: currentQuestionIndex === i ? "#f50057" : null, // Change background color for active button on hover
-            },
+              backgroundColor: currentQuestionIndex === i ? "#f50057" : null // Change background color for active button on hover
+            }
           }}
         >
-          {i+1}
+          {i + 1}
         </Button>
       ))}
       {currentQuestion && (
@@ -91,10 +98,23 @@ export default function ViewQuestion() {
               alt={currentQuestion.title}
             />
           )}
+          <TextField
+            id="user_answer"
+            label="Answer"
+            variant="outlined"
+            placeholder="enter your answer"
+            value={answers[currentQuestion.id] || ""}
+            onChange={handleAnswerChange}
+            inputProps={{
+              style: { color: "white" }
+            }}
+          />
+
+          <br />
           <Button
-            color="primary" 
-            variant="contained" 
-            onClick={handlePrevious} 
+            color="primary"
+            variant="contained"
+            onClick={handlePrevious}
             disabled={currentQuestionIndex === 0}
             sx={{
               "&.Mui-disabled": {
@@ -107,9 +127,9 @@ export default function ViewQuestion() {
           </Button>
 
           <Button
-            color="primary" 
-            variant="contained" 
-            onClick={handleNext} 
+            color="primary"
+            variant="contained"
+            onClick={handleNext}
             disabled={currentQuestionIndex === questions.length - 1}
             sx={{
               "&.Mui-disabled": {
