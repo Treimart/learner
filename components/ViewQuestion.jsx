@@ -67,6 +67,10 @@ export default function ViewQuestion() {
     }
   }
 
+  const handleFinish = () => {
+    console.log(answers)
+  }
+
   // Get the current question
   const currentQuestion = questions[currentQuestionIndex]
 
@@ -109,6 +113,15 @@ export default function ViewQuestion() {
               style: { color: "white" }
             }}
           />
+          <br />
+          {/* ... existing code ... */}
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={handleFinish}
+          >
+            Finish
+          </Button>
 
           <br />
           <Button
