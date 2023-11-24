@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export default function CreateForm() {
   const supabase = createClientComponentClient();
 
-  const [user, setUser] = useState(null);
+  //const [user, setUser] = useState(null);
   const [formTitle, setFormTitle] = useState("");
   const [formDescription, setFormDescription] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
@@ -23,7 +23,7 @@ export default function CreateForm() {
     getCategories();
   }, [supabase, setCategories]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       if (user) {
@@ -31,24 +31,31 @@ export default function CreateForm() {
       }
     };
     getUser();
-  }, [supabase, setUser]);
+  }, [supabase, setUser]);*/
 
   const saveNewForm = async () => {
     try {
-      if (!user) {
+      /*if (!user) {
         console.error("User is not authenticated");
         return;
-      }
+      }*/
+      const currentTimestamp = new Date();
 
-      const { data: newForm, error } = await supabase.from("form").insert([
-        {
-          category_id: selectedCategoryId,
-          title: formTitle,
-          description: formDescription,
-          status: 1,
-          user_id: user.id,
-        },
-      ]);
+      const { data: newForm, error } = await supabase
+        .from("form")
+        .insert([
+          {
+            category_id: selectedCategoryId,
+            title: formTitle,
+            description: formDescription,
+            status: 1,
+            created: currentTimestamp,
+            updated: null,
+            deleted: null,
+            user_id: null,
+          },
+        ])
+        .select();
 
       if (error) {
         console.error("Error saving the form:", error.message);

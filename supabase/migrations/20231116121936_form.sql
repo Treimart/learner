@@ -18,3 +18,8 @@ alter table form enable row level security;
 create policy "Forms are viewable by everyone."
   on public.form for select
 using ( true );
+
+create policy "Users can create a form."
+  on public.form for insert
+  to authenticated
+  with check (true);
