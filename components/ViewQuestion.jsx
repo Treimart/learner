@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
-import { Box, Button, Typography, TextField } from "@mui/material"
+import { Box, Button, Typography, TextField, IconButton } from "@mui/material"
+import StarIcon from '@mui/icons-material/Star';
 
 export default function ViewQuestion() {
   const supabase = createClientComponentClient()
@@ -16,7 +17,11 @@ export default function ViewQuestion() {
 
   const [questions, setQuestions] = useState([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
+  const [fav, setFav] = useState(false)
   const [formData, setFormData] = useState("")
+  const [favorite, setFavorite] = useState("")
+  const [userID, setUserID] = useState("")
+  const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
 
   useEffect(() => {
@@ -44,6 +49,46 @@ export default function ViewQuestion() {
     }
     getFormData()
   }, [supabase, form_id])
+
+  useEffect(() => {
+    const getUserID = async () => {
+      const { data } = await supabase.auth.getUser()
+      if (data) {
+        const id = data.user.id
+        setUserID(id)
+        setUserIDLoaded(true)
+      }
+    }
+    getUserID()
+  }, [supabase, setUserID])
+
+  //console.log("form:", form_id, " user:", userID)
+
+  useEffect(() => {
+    if (userIDLoaded) {
+      const getFavorite = async () => {
+        const { data } = await supabase
+          .from("favorite")
+          .select()
+          .match({ form_id: form_id, user_id: userID })
+        if (data) {
+          if (data.length > 0) {
+            setFav(true)
+          }
+          setFavorite(data)
+        }
+      }
+      getFavorite()
+    }
+  }, [supabase, userIDLoaded, setFavorite])
+
+  console.log(favorite)
+
+
+
+
+
+
 
   const handleAnswerChange = e => {
     setAnswers({
@@ -75,12 +120,40 @@ export default function ViewQuestion() {
     router.push("/results/")
   }
 
+  const setAsFavorite = () => {
+    if (favorite) {
+      console.log('fav')  
+    }
+    setFav(!fav)
+  }
+
   // Get the current question
   const currentQuestion = questions[currentQuestionIndex]
 
   return (
     <Box>
-      <Typography variant="h1">{formTitle}</Typography>
+      <Box 
+        sx={{ 
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <Typography variant="h1">{formTitle}</Typography>
+        <IconButton onClick={setAsFavorite}>
+          <StarIcon 
+            fontSize="large"
+            sx={{
+              color: !fav ? 'primary' : "#FFC861",
+              "&:hover": {
+                color: 'secondary'
+              }
+            }}
+          />
+        </IconButton>
+      </Box>
+      
       {questions.map(({ id: questionID }, i) => (
         <Button
           variant="contained"
