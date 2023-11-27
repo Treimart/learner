@@ -3,6 +3,7 @@ import "./globals.css"
 
 import Navbar from '../components/Navbar'
 import { Container } from "@mui/material"
+import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry"
 
 
 const defaultUrl = process.env.VERCEL_URL
@@ -27,12 +28,14 @@ export default async function RootLayout({
       className={GeistSans.className}
     >
       <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
-          <Navbar />
-          <Container style={{ marginTop: '10rem' }}>
-              {children}
-          </Container>
-        </main>
+        <ThemeRegistry>
+          <main className="min-h-screen flex flex-col items-center">
+            <Navbar />
+            <Container style={{ marginTop: '10rem' }}>
+                {children}
+            </Container>
+          </main>
+        </ThemeRegistry>
       </body>
     </html>
   )
