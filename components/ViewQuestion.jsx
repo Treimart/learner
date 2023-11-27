@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation"
 import { Box, Button, Typography, TextField, IconButton } from "@mui/material"
 import StarIcon from '@mui/icons-material/Star';
 
+
 export default function ViewQuestion() {
   const supabase = createClientComponentClient()
   const router = useRouter()
@@ -19,6 +20,7 @@ export default function ViewQuestion() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [fav, setFav] = useState(false)
   const [formData, setFormData] = useState("")
+  const [favorite, setFavorite] = useState("")
   const [userID, setUserID] = useState("")
   const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
@@ -160,6 +162,8 @@ export default function ViewQuestion() {
     localStorage.setItem("answers", JSON.stringify(answers))
     router.push("/results/")
   }
+
+
 
   return (
     <Box>
