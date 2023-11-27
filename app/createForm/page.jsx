@@ -12,6 +12,7 @@ export default function CreateForm() {
   const [formDescription, setFormDescription] = useState("");
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -39,6 +40,12 @@ export default function CreateForm() {
         console.error("User is not authenticated");
         return;
       }*/
+
+      if (!formTitle.trim() || !formDescription.trim()) {
+        setError("Name and description are required");
+        return;
+      }
+
       const currentTimestamp = new Date();
 
       const { data: newForm, error } = await supabase
@@ -107,7 +114,7 @@ export default function CreateForm() {
           ))}
         </select>
         <br />
-
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <Button onClick={saveNewForm}>Loo küsimustik</Button>
       </FormControl>
     </div>
