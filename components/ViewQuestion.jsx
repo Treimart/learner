@@ -20,6 +20,7 @@ export default function ViewQuestion() {
   const [fav, setFav] = useState(false)
   const [formData, setFormData] = useState("")
   const [favorite, setFavorite] = useState("")
+  const [unfavorite, setUnfavorite] = useState("")
   const [userID, setUserID] = useState("")
   const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
@@ -84,10 +85,20 @@ export default function ViewQuestion() {
 
   console.log(favorite)
 
-
-
-
-
+  useEffect(() => {
+    console.log(canDelete)
+    if (canDelete) {
+      console.log("form:", form_id, " user:", userID)
+      const getUnfavorite = async () => {
+        const { data } = await supabase
+          .from("favorite")
+          .select()
+          .match({ form_id: form_id, user_id: userID })
+        setUnfavorite(data)
+      }
+      getUnfavorite()
+    }
+  }, [supabase, setUnfavorite])
 
 
   const handleAnswerChange = e => {
@@ -121,14 +132,23 @@ export default function ViewQuestion() {
   }
 
   const setAsFavorite = () => {
-    if (favorite) {
-      console.log('fav')  
+    
+    console.log(canDelete)
+    if (favorite.length > 0) {
+      setFav(false)
+      canDelete = true
+      console.log("fav false")
+      console.log(unfavorite)
+    } else {
+      setFav(true)
+      console.log("fav true")
     }
-    setFav(!fav)
+    
   }
 
   // Get the current question
   const currentQuestion = questions[currentQuestionIndex]
+  let canDelete = false
 
   return (
     <Box>

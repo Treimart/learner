@@ -28,4 +28,4 @@ values
 insert into
 favorite (user_id, form_id)
 values
-('2c30867e-87c2-11ee-b9d1-0242ac120002', 2);
+('dd8c5403-b1a7-4d92-9fdb-7d457f1cbf9a', 2);

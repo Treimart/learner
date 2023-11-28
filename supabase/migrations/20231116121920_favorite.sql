@@ -18,3 +18,7 @@ create policy "Users can update their own favorites."
   on public.favorite for update
   to authenticated
   with check (true);
+
+create policy "Users can delete their own favorites."
+  on public.favorite for delete
+  to authenticated;
