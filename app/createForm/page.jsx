@@ -3,6 +3,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button, FormControl, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
+import { format } from "date-fns";
 
 export default function CreateForm() {
   const supabase = createClientComponentClient();
@@ -13,6 +14,19 @@ export default function CreateForm() {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
+  const [userID, setUserID] = useState("");
+
+  useEffect(() => {
+    const getUserID = async () => {
+      const { data } = await supabase.auth.getUser();
+      if (data) {
+        const id = data.user.id;
+        setUserID(id);
+        //setUserIDLoaded(true)
+      }
+    };
+    getUserID();
+  }, [supabase, setUserID]);
 
   useEffect(() => {
     const getCategories = async () => {
@@ -24,29 +38,19 @@ export default function CreateForm() {
     getCategories();
   }, [supabase, setCategories]);
 
-  /*useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (user) {
-        setUser(data);
-      }
-    };
-    getUser();
-  }, [supabase, setUser]);*/
-
   const saveNewForm = async () => {
     try {
-      /*if (!user) {
+      if (!userID) {
         console.error("User is not authenticated");
         return;
-      }*/
+      }
 
       if (!formTitle.trim() || !formDescription.trim()) {
         setError("Name and description are required");
         return;
       }
 
-      const currentTimestamp = new Date();
+      const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
       const { data: newForm, error } = await supabase
         .from("form")
@@ -59,7 +63,7 @@ export default function CreateForm() {
             created: currentTimestamp,
             updated: null,
             deleted: null,
-            user_id: null,
+            user_id: userID,
           },
         ])
         .select();
@@ -105,7 +109,7 @@ export default function CreateForm() {
           color="neutral"
           id="categorySelect"
           value={selectedCategoryId}
-          onChange={(e) => setSelectedCategoryId(e.target.value || "")}
+          onChange={(e) => setSelectedCategoryId(e.target.value || 0)}
         >
           {categories.map(({ id, name }) => (
             <option key={id} value={id}>
