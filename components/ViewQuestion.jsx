@@ -20,15 +20,10 @@ export default function ViewQuestion() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [fav, setFav] = useState(false)
   const [formData, setFormData] = useState("")
-  const [favorite, setFavorite] = useState("")
-  const [unfavorite, setUnfavorite] = useState("")
   const [userID, setUserID] = useState("")
   const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
 
-  // Get the current question
-  const currentQuestion = questions[currentQuestionIndex]
-  const formTitle = formData.title
 
   useEffect(() => {
     const getQuestions = async () => {
