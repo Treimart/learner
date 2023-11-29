@@ -1,6 +1,6 @@
 create table
 favorite (
-    id bigint primary key generated always as identity,
+  id bigint primary key generated always as identity,
   user_id uuid references auth.users on delete cascade not null
 );
 
