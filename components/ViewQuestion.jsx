@@ -19,11 +19,13 @@ export default function ViewQuestion() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [fav, setFav] = useState(false)
   const [formData, setFormData] = useState("")
-  const [favorite, setFavorite] = useState("")
-  const [unfavorite, setUnfavorite] = useState("")
   const [userID, setUserID] = useState("")
   const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
+
+  // Get the current question
+  const currentQuestion = questions[currentQuestionIndex]
+  const formTitle = formData.title
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -51,55 +53,84 @@ export default function ViewQuestion() {
     getFormData()
   }, [supabase, form_id])
 
-  useEffect(() => {
-    const getUserID = async () => {
-      const { data } = await supabase.auth.getUser()
-      if (data) {
-        const id = data.user.id
-        setUserID(id)
-        setUserIDLoaded(true)
-      }
+  const getUserID = async () => {
+    const { data } = await supabase.auth.getUser()
+    if (data) {
+      const id = data.user.id
+      setUserID(id)
+      setUserIDLoaded(true)
     }
-    getUserID()
-  }, [supabase, setUserID])
-
+  }
+  getUserID()
   //console.log("form:", form_id, " user:", userID)
 
-  useEffect(() => {
-    if (userIDLoaded) {
-      const getFavorite = async () => {
-        const { data } = await supabase
-          .from("favorite")
-          .select()
-          .match({ form_id: form_id, user_id: userID })
-        if (data) {
-          if (data.length > 0) {
-            setFav(true)
-          }
-          setFavorite(data)
+  if (userIDLoaded) {
+    const getInitialFavorite = async () => {
+      const { data } = await supabase
+        .from("favorite")
+        .select()
+        .match({ form_id: form_id, user_id: userID })
+      if (data) {
+        if (data.length > 0) {
+          setFav(true)
         }
       }
-      getFavorite()
     }
-  }, [supabase, userIDLoaded, setFavorite])
+    getInitialFavorite()
+  }
 
-  console.log(favorite)
-
-  useEffect(() => {
-    console.log(canDelete)
-    if (canDelete) {
-      console.log("form:", form_id, " user:", userID)
-      const getUnfavorite = async () => {
-        const { data } = await supabase
-          .from("favorite")
-          .select()
-          .match({ form_id: form_id, user_id: userID })
-        setUnfavorite(data)
+  const getFavorite = async () => {
+    if (userIDLoaded) {
+      const { data } = await supabase
+        .from("favorite")
+        .select()
+        .match({ form_id: form_id, user_id: userID })
+      if (data) {
+        return data
       }
-      getUnfavorite()
     }
-  }, [supabase, setUnfavorite])
+  }
 
+  const saveNewFavorite = async () => {
+    const a = await getFavorite()
+    //console.log(a[0].id)
+    if (!fav) {
+      try {
+        setFav(true)
+        const { data: newFavorite, error } = await supabase
+          .from("favorite")
+          .insert([
+            {
+              form_id: form_id,
+              user_id: userID
+            },
+          ])
+          .select()
+        if (error) {
+          console.error("Error saving fav:", error.message);
+        } else {
+          console.log("Fav saved successfully:", newFavorite);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error.message)
+      }
+    } else {
+      try {
+        setFav(false)
+        const { error } = await supabase
+          .from('favorite')
+          .delete()
+          .eq('id', a[0].id)
+        if (error) {
+          console.error("Error deleting fav:", error.message);
+        } else {
+          console.log("Fav deleted successfully!");
+        }
+      } catch (error) {
+        console.error("An error occurred:", error.message)
+      }
+    }
+  }
 
   const handleAnswerChange = e => {
     setAnswers({
@@ -111,7 +142,6 @@ export default function ViewQuestion() {
     })
   }
 
-  const formTitle = formData.title
 
   // Handlers for next and previous buttons
   const handleNext = () => {
@@ -131,25 +161,6 @@ export default function ViewQuestion() {
     router.push("/results/")
   }
 
-  const setAsFavorite = () => {
-    
-    console.log(canDelete)
-    if (favorite.length > 0) {
-      setFav(false)
-      canDelete = true
-      console.log("fav false")
-      console.log(unfavorite)
-    } else {
-      setFav(true)
-      console.log("fav true")
-    }
-    
-  }
-
-  // Get the current question
-  const currentQuestion = questions[currentQuestionIndex]
-  let canDelete = false
-
   return (
     <Box>
       <Box 
@@ -161,7 +172,7 @@ export default function ViewQuestion() {
         }}
       >
         <Typography variant="h1">{formTitle}</Typography>
-        <IconButton onClick={setAsFavorite}>
+        <IconButton onClick={saveNewFavorite}>
           <StarIcon 
             fontSize="large"
             sx={{

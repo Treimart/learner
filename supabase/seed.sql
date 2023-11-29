@@ -25,7 +25,7 @@ values
 ('2c30867e-87c2-11ee-b9d1-0242ac120002', 1, '2023-11-16 16:13:20'),
 ('317e357c-87c2-11ee-b9d1-0242ac120002', 2, '2023-11-19 15:19:50'); */
 
-insert into
+/* insert into
 favorite (user_id, form_id)
 values
-('dd8c5403-b1a7-4d92-9fdb-7d457f1cbf9a', 2);
+('dd8c5403-b1a7-4d92-9fdb-7d457f1cbf9a', 2); */
