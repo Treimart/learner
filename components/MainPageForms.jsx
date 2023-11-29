@@ -19,32 +19,69 @@ export default function MainPageCategories() {
       const { data } = await supabase.from('category').select()
       if (data) {
         setCategories(data)
-				//console.log(data)
       }
     }
     getCategories()
   }, [supabase, setCategories])
 
+  const [userID, setUserID] = useState("")
+  const [userIDLoaded, setUserIDLoaded] = useState(false)
   useEffect(() => {
-    const getForms = async () => {
-      const { data } = await supabase.from('form').select()
+    const getUserID = async () => {
+      const { data } = await supabase.auth.getSession()
+      //console.log(data.session)
+      if (data.session != null) {
+        const id = data.session.user.id
+        setUserID(id)
+      } else {
+        console.log("123")
+        setUserID(0)
+      }
+      setUserIDLoaded(true)
+    }
+    getUserID()
+  }, [])
+
+  const getForms = async () => {
+    //console.log(userID)
+    if (userID == 0) {
+      const { data } = await supabase
+        .from('form')
+        .select()
+        .eq('status', 3)
       if (data) {
         setForms(data)
-				//console.log(data)
+        //console.log(data)
+      }
+    } else {
+      const { data } = await supabase
+        .from('form')
+        .select()
+        .or(`status.eq.3,status.eq.2,and(status.eq.1,user_id.eq.${userID})`)
+      if (data) {
+        setForms(data)
+        //console.log(data)
       }
     }
-    getForms()
-  }, [supabase, setForms])
-
-  function filterForms(catID){
-    //console.log(catID)
-    //console.log(forms.filter(form => form.category_id == catID))
-    return forms.filter(form => form.category_id == catID)
   }
+
+  useEffect(() => {
+    if (userIDLoaded) {
+      getForms()
+      //console.log(userIDLoaded, userID)
+    }
+  }, [userID])
 
   //console.log(forms[0].category_id)
 	return (
-    <Grid container spacing={2}>
+    <Grid 
+      container spacing={2}
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'baseline'
+      }}
+    >
       {categories.map(({id: catID, name}) => (
         <Grid item
           key={catID}
@@ -66,7 +103,8 @@ export default function MainPageCategories() {
             <Button 
               style={{justifyContent: "flex-start"}}
               sx={{
-                width: 'fit-content'
+                width: 'fit-content',
+                my: 1
               }}
               color="primary" 
               variant="contained" 
