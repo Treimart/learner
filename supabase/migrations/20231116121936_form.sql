@@ -1,7 +1,7 @@
 create table
 form (
   id bigint primary key generated always as identity,
-  user_id uuid not null references auth.users on delete cascade,
+  user_id uuid references auth.users on delete cascade,
   category_id bigint not null references category,
   title text not null,
   description text,
