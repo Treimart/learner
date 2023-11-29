@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 export default function CreateForm() {
   const supabase = createClientComponentClient();
   const router = useRouter();
-
   //const [user, setUser] = useState(null);
   const [formTitle, setFormTitle] = useState("");
   const [formDescription, setFormDescription] = useState("");
@@ -74,6 +73,8 @@ export default function CreateForm() {
         console.error("Error saving the form:", error.message);
       } else {
         console.log("Form saved successfully:", newForm);
+        const formId = newForm[0].id;
+        localStorage.setItem("formId", formId);
         router.push("/questions/");
       }
     } catch (error) {
