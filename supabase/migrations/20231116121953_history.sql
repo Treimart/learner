@@ -1,5 +1,6 @@
 create table
 history (
+  user_id uuid not null references auth.users on delete cascade,
   form_id bigint not null references form,
   lastViewed timestamp
 );
