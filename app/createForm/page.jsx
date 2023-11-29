@@ -4,9 +4,11 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button, FormControl, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export default function CreateForm() {
   const supabase = createClientComponentClient();
+  const router = useRouter();
 
   //const [user, setUser] = useState(null);
   const [formTitle, setFormTitle] = useState("");
@@ -72,7 +74,7 @@ export default function CreateForm() {
         console.error("Error saving the form:", error.message);
       } else {
         console.log("Form saved successfully:", newForm);
-        // Optionally, you can redirect the user or perform other actions after saving the form
+        router.push("/questions/");
       }
     } catch (error) {
       console.error("An error occurred:", error.message);
