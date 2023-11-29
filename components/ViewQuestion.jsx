@@ -176,9 +176,9 @@ export default function ViewQuestion() {
           <StarIcon 
             fontSize="large"
             sx={{
-              color: !fav ? 'primary' : "#FFC861",
+              color: !fav ? 'primary.main' : "#FFC861",
               "&:hover": {
-                color: 'secondary'
+                color: 'secondary.main'
               }
             }}
           />
