@@ -24,6 +24,9 @@ export default function ViewQuestion() {
   const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
 
+  // Get the current question
+  const currentQuestion = questions[currentQuestionIndex]
+  const formTitle = formData.title
 
   useEffect(() => {
     const getQuestions = async () => {
