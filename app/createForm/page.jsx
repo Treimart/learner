@@ -11,7 +11,7 @@ export default function CreateForm() {
   //const [user, setUser] = useState(null);
   const [formTitle, setFormTitle] = useState("");
   const [formDescription, setFormDescription] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [selectedCategoryId, setSelectedCategoryId] = useState(1);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [userID, setUserID] = useState("");
@@ -109,7 +109,7 @@ export default function CreateForm() {
           color="neutral"
           id="categorySelect"
           value={selectedCategoryId}
-          onChange={(e) => setSelectedCategoryId(e.target.value || 0)}
+          onChange={(e) => setSelectedCategoryId(e.target.value)}
         >
           {categories.map(({ id, name }) => (
             <option key={id} value={id}>
