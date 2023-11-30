@@ -1,18 +1,26 @@
 "use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Button, FormControl, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
-import { CheckBox } from "@mui/icons-material";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 export default function CreateQuestion() {
   const supabase = createClientComponentClient();
   const [question, setQuestion] = useState([]);
   const [answer, setAnswer] = useState([]);
   const [isEvaluable, setIsEvaluable] = useState(true);
-  const [photo, setPhoto] = useState(null);
-  const [userID, setUserID] = useState("");
+  const [photo, setPhoto] = useState("");
   const [formData, setFormData] = useState("");
-  const storedFormId = localStorage.getItem("formId");
+  const [message, setMessage] = useState(null);
+  const storedFormId =
+    typeof window !== "undefined" ? localStorage.getItem("formId") : null;
   const formTitle = formData.title;
 
   useEffect(() => {
@@ -28,25 +36,8 @@ export default function CreateQuestion() {
     getFormData();
   }, [supabase, storedFormId]);
 
-  useEffect(() => {
-    const getUserID = async () => {
-      const { data } = await supabase.auth.getUser();
-      if (data) {
-        const id = data.user.id;
-        setUserID(id);
-        //setUserIDLoaded(true)
-      }
-    };
-    getUserID();
-  }, [supabase, setUserID]);
-
   const saveNewQuestion = async () => {
     try {
-      /*           if (!formTitle.trim() || !formDescription.trim()) {
-            setError("Name and description are required");
-            return;
-          } */
-
       const { data: newQuestion, error } = await supabase
         .from("question")
         .insert([
@@ -64,7 +55,11 @@ export default function CreateQuestion() {
         console.error("Error saving the question:", error.message);
       } else {
         console.log("Question saved successfully:", newQuestion);
+        setMessage("Küsimus lisatud!");
       }
+      setTimeout(() => {
+        setMessage(null);
+      }, 3000);
     } catch (error) {
       console.error("An error occurred:", error.message);
     }
@@ -75,6 +70,7 @@ export default function CreateQuestion() {
       <Typography variant="h1">{formTitle}</Typography>
       <FormControl>
         <TextField
+          required
           type="text"
           size="small"
           variant="outlined"
@@ -85,6 +81,7 @@ export default function CreateQuestion() {
         />
         <br />
         <TextField
+          required
           type="text"
           size="small"
           variant="outlined"
@@ -94,7 +91,25 @@ export default function CreateQuestion() {
           onChange={(e) => setAnswer(e.target.value)}
         />
         <br />
-        <Button onClick={saveNewQuestion}>Salvesta</Button>
+        <TextField
+          type="text"
+          size="small"
+          variant="outlined"
+          label="Url"
+          id="photo"
+          value={photo}
+          onChange={(e) => setPhoto(e.target.value)}
+        />
+        <br />
+        <Tooltip title="Salvesta">
+          <IconButton onClick={saveNewQuestion}>
+            <AddCircleRoundedIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
+        <p>{message}</p>
+        <a href="/">
+          <Button>Lõpeta</Button>
+        </a>
       </FormControl>
     </div>
   );
