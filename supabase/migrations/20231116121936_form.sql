@@ -25,7 +25,8 @@ create policy "Users can create a form."
   to authenticated
   with check (true);
 
-create policy "Users can update their forms."
-  on public.form for update
-  to authenticated
-  with check (true);
+CREATE POLICY "Enable update for users based on user_id" ON "public"."form"
+AS PERMISSIVE FOR UPDATE
+TO authenticated
+USING (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id)
