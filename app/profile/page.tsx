@@ -6,15 +6,14 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ShowUserForms from "@/components/ShowUserForms"
 
 export default function Profile() {
-
   const supabase = createClientComponentClient()
   const [userDataLoaded, setUserDataLoaded] = useState(false)
   const [userData, setUserData] = useState<{
-    id: string;
+    id: string
     email: string | undefined
   }>({
     id: "",
-    email: undefined,
+    email: undefined
   })
 
   useEffect(() => {
@@ -22,10 +21,12 @@ export default function Profile() {
       const { data } = await supabase.auth.getSession()
       //console.log(data.session)
       if (data.session != null) {
-        const { data: {user} } = await supabase.auth.getUser()
+        const {
+          data: { user }
+        } = await supabase.auth.getUser()
         const newData = {
           id: user!.id,
-          email: user!.email || undefined,
+          email: user!.email || undefined
         }
         setUserData(newData)
       }
@@ -36,37 +37,39 @@ export default function Profile() {
 
   const renderUserInfoAndActions = (userInfoArray: any[]) => {
     const userInfoItems = userInfoArray.map((info, index) => (
-      <Box key={index} sx={{ margin: '3vh 0 3vh 0' }}>{info}</Box>
-    ));
+      <Box
+        key={index}
+        sx={{ margin: "3vh 0 3vh 0" }}
+      >
+        {info}
+      </Box>
+    ))
 
-    return (
-      <div>
-        {userInfoItems}
-      </div>
-    );
-  };
+    return <div>{userInfoItems}</div>
+  }
 
   const renderUserHistoryAndFavorites = (userHistoryArray: any[]) => {
     const userHistoryItems = userHistoryArray.map((info, index) => (
-      <Box key={index} sx={{ margin: '3vh 0 3vh 0' }}>{info}</Box>
-    ));
+      <Box
+        key={index}
+        sx={{ margin: "3vh 0 3vh 0" }}
+      >
+        {info}
+      </Box>
+    ))
 
-    return (
-      <div>
-        {userHistoryItems}
-      </div>
-    )
+    return <div>{userHistoryItems}</div>
   }
 
-  let userInfoArray: string[] = [" "];
+  let userInfoArray: string[] = [" "]
   if (userData && userData.email) {
-    userInfoArray = [`Email: ${userData.email}`];
+    userInfoArray = [`Email: ${userData.email}`]
   }
   const userHistoryArray = ["Ajalugu", "Lemmikud", "Minu küsimustikud"]
 
   if (userDataLoaded) {
     return userData.email != undefined ? (
-      <Container sx={{ width: '100%' }}>
+      <Container sx={{ width: "100%" }}>
         PROFIILI ANDMED
         <Grid container spacing={2}>
         <Grid item xs={6}>
@@ -92,11 +95,11 @@ export default function Profile() {
       </Container>
     ) : (
       <Container
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        width: '100%'
-      }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          width: "100%"
+        }}
       >
         <AuthButton userData={userData} />
       </Container>
