@@ -77,7 +77,7 @@ export default function ShowUserForms() {
 
   return (
     <div>
-      <h1>Your Forms</h1>
+      <h1>Sinu küsimustikud</h1>
       <br />
       {forms.map(form => (
         <div key={form.id}>
@@ -92,9 +92,9 @@ export default function ShowUserForms() {
             value={form.status}
             onChange={event => handleStatusChange(form.id, event)}
           >
-            <option value={1}>Private</option>
-            <option value={2}>Only authenticated users</option>
-            <option value={3}>Public</option>
+            <option value={1}>Privaatne</option>
+            <option value={2}>Kontodega kasutajad</option>
+            <option value={3}>Avalik</option>
           </select>
           <br />
           <br />
