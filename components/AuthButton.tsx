@@ -1,39 +1,53 @@
-import { createClient } from '@/utils/supabase/server'
-import Link from 'next/link'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+"use client"
 
-export default async function AuthButton() {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useEffect, useState } from "react"
+import { Box, Button } from '@mui/material';
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+export default function AuthButton() {
+  const supabase = createClientComponentClient()
+  const [userData, setUserData] = useState("")
+  const [userDataLoaded, setUserDataLoaded] = useState(false)
 
-  const signOut = async () => {
-    'use server'
+  useEffect(() => {
+    const getUserData = async () => {
+      const { data } = await supabase.auth.getSession()
+      //console.log(data.session)
+      if (data.session != null) {
+        const { data: {user} } = await supabase.auth.getUser()
+        setUserData(user!.id)
+      }
+      setUserDataLoaded(true)
+    }
+    getUserData()
+  }, [])
 
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-    await supabase.auth.signOut()
-    return redirect('/login')
+
+  if (userDataLoaded) {
+    return userData ? (
+      <Box>
+        <form action={async () => {await supabase.auth.signOut()}}>
+          <Button 
+            href="/login"
+            className="py-2 px-4 rounded-md no-underline"
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            Logi välja
+          </Button>
+        </form>
+      </Box>
+    ) : (
+      <Button
+        href="/login"
+        className="py-2 px-4 rounded-md no-underline"
+        variant="contained"
+        color="primary"
+      >
+        Logi sisse
+      </Button>
+    )
   }
 
-  return user ? (
-    <div className="flex items-center gap-4">
-      <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-          Logi välja
-        </button>
-      </form>
-    </div>
-  ) : (
-    <Link
-      href="/login"
-      className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
-    >
-      Logi sisse
-    </Link>
-  )
 }
