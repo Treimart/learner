@@ -1,15 +1,18 @@
 "use client"
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 interface Form {
+  id: number
   title: string
   description: string
 }
 
 export default function ShowUserForms() {
   const supabase = createClientComponentClient()
+  const router = useRouter()
 
   const [userID, setUserID] = useState("")
   const [userIDLoaded, setUserIDLoaded] = useState(false)
@@ -48,13 +51,22 @@ export default function ShowUserForms() {
     }
   }, [userID])
 
+  const handleClick = (id: number) => {
+    router.push(`../form?form_id=${id}`)
+  }
+
   return (
     <div>
       <h1>Your Forms</h1>
       <br />
-      {forms.map((form, index) => (
-        <div key={index}>
-          <h2>{form.title}</h2>
+      {forms.map(form => (
+        <div key={form.id}>
+          <h2
+            onClick={() => handleClick(form.id)}
+            style={{ cursor: "pointer" }}
+          >
+            {form.title}
+          </h2>
           <p>{form.description}</p>
           <br />
         </div>
