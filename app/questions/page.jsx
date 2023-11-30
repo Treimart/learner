@@ -1,9 +1,8 @@
 "use client";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Button, FormControl, TextField } from "@mui/material";
+import { Button, FormControl, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CheckBox } from "@mui/icons-material";
-import { useRouter } from "next/router";
 
 export default function CreateQuestion() {
   const supabase = createClientComponentClient();
@@ -12,7 +11,22 @@ export default function CreateQuestion() {
   const [isEvaluable, setIsEvaluable] = useState(true);
   const [photo, setPhoto] = useState(null);
   const [userID, setUserID] = useState("");
+  const [formData, setFormData] = useState("");
   const storedFormId = localStorage.getItem("formId");
+  const formTitle = formData.title;
+
+  useEffect(() => {
+    const getFormData = async () => {
+      const { data } = await supabase
+        .from("form")
+        .select(`title`)
+        .eq("id", storedFormId);
+      if (data.length > 0) {
+        setFormData(data[0]);
+      }
+    };
+    getFormData();
+  }, [supabase, storedFormId]);
 
   useEffect(() => {
     const getUserID = async () => {
@@ -58,6 +72,7 @@ export default function CreateQuestion() {
 
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+      <Typography variant="h1">{formTitle}</Typography>
       <FormControl>
         <TextField
           type="text"
@@ -78,7 +93,6 @@ export default function CreateQuestion() {
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
         />
-        <CheckBox />
         <br />
         <Button onClick={saveNewQuestion}>Salvesta</Button>
       </FormControl>
