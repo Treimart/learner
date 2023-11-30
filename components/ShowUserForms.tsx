@@ -66,6 +66,7 @@ export default function ShowUserForms() {
       .from("form")
       .update({ status: newStatus })
       .match({ id: id })
+      .select()
     if (error) {
       console.error("Error updating status:", error)
     } else {
