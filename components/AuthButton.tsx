@@ -26,9 +26,13 @@ export default function AuthButton() {
   if (userDataLoaded) {
     return userData ? (
       <Box>
-        <form action={async () => {await supabase.auth.signOut()}}>
+        <form 
+          action={async () => {
+            await supabase.auth.signOut() 
+            window.location.href = "/"
+          }}
+        >
           <Button 
-            href="/login"
             className="py-2 px-4 rounded-md no-underline"
             variant="contained"
             color="primary"
