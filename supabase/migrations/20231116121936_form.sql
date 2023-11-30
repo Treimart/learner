@@ -24,3 +24,8 @@ create policy "Users can create a form."
   on public.form for insert
   to authenticated
   with check (true);
+
+create policy "Users can update their forms."
+  on public.form for update
+  to authenticated
+  with check (true);
