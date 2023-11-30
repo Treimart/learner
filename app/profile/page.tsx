@@ -1,16 +1,37 @@
+'use client'
 import AuthButton from '@/components/AuthButton';
-import { Box, Container, Grid } from '@mui/material';
-import { createClient } from '@/utils/supabase/server'
-import { cookies } from 'next/headers'
+import { Box, Container, Grid, Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
-export default async function Profile() {
+export default function Profile() {
 
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createClientComponentClient()
+  const [userDataLoaded, setUserDataLoaded] = useState(false)
+  const [userData, setUserData] = useState<{
+    id: string;
+    email: string | undefined
+  }>({
+    id: "",
+    email: undefined,
+  })
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  useEffect(() => {
+    const getUserData = async () => {
+      const { data } = await supabase.auth.getSession()
+      //console.log(data.session)
+      if (data.session != null) {
+        const { data: {user} } = await supabase.auth.getUser()
+        const newData = {
+          id: user!.id,
+          email: user!.email || undefined,
+        }
+        setUserData(newData)
+      }
+      setUserDataLoaded(true)
+    }
+    getUserData()
+  }, [])
 
   const renderUserInfoAndActions = (userInfoArray: any[]) => {
     const userInfoItems = userInfoArray.map((info, index) => (
@@ -37,28 +58,46 @@ export default async function Profile() {
   }
 
   let userInfoArray: string[] = [" "];
-  if (user && user.email) {
-    userInfoArray = [`Email: ${user.email}`];
+  if (userData && userData.email) {
+    userInfoArray = [`Email: ${userData.email}`];
   }
   const userHistoryArray = ["Ajalugu", "Lemmikud", "Minu küsimustikud"];
 
-  return (
-    <Container sx={{ width: '100%' }}>
-      PROFIILI ANDMED
-      <Grid container spacing={2}>
-      <Grid item xs={6}>
-        {renderUserInfoAndActions(userInfoArray)}
-        <Box sx={{ margin: '3vh 0 3vh 0' }}>
-          <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">Muuda parooli</button>
-        </Box>
-        <Box sx={{ margin: '3vh 0 3vh 0' }}>
-          <AuthButton/>
-        </Box>
+  if (userDataLoaded) {
+    return userData.email != undefined ? (
+      <Container sx={{ width: '100%' }}>
+        PROFIILI ANDMED
+        <Grid container spacing={2}>
+        <Grid item xs={6}>
+          {renderUserInfoAndActions(userInfoArray)}
+          <Box sx={{ margin: '3vh 0 3vh 0' }}>
+            <Button 
+              className="py-2 px-4 rounded-md no-underline"
+              variant="contained"
+              color="primary"
+            >
+              Muuda parooli
+            </Button>
+          </Box>
+          <Box sx={{ margin: '3vh 0 3vh 0' }}>
+            <AuthButton userData={userData} />
+          </Box>
+        </Grid>
+        <Grid item xs={6}>
+          {renderUserHistoryAndFavorites(userHistoryArray)}
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        {renderUserHistoryAndFavorites(userHistoryArray)}
-      </Grid>
-    </Grid>
-    </Container>
-  );
+      </Container>
+    ) : (
+      <Container
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%'
+      }}
+      >
+        <AuthButton userData={userData} />
+      </Container>
+    )
+  }
 }
