@@ -43,7 +43,7 @@ export default function ShowUserForms() {
     }
   }
 
-  console.log(userID)
+  //console.log(userID)
 
   useEffect(() => {
     if (userIDLoaded) {
@@ -56,17 +56,22 @@ export default function ShowUserForms() {
     router.push(`../form?form_id=${id}`)
   }
 
-  const getStatusText = (status: number) => {
-    switch (status) {
-      case 1:
-        return "Private"
-      case 2:
-        return "Only authenticated users"
-      case 3:
-        return "Public"
-      default:
-        return ""
+  const handleStatusChange = async (
+    id: number,
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newStatus = parseInt(event.target.value)
+    console.log("Changing status for form id", id, "to", newStatus)
+    const { data, error } = await supabase
+      .from("form")
+      .update({ status: newStatus })
+      .match({ id: id })
+    if (error) {
+      console.error("Error updating status:", error)
+    } else {
+      console.log("Updated form:", data)
     }
+    getForms()
   }
 
   return (
@@ -82,7 +87,15 @@ export default function ShowUserForms() {
             {form.title}
           </h2>
           <p>{form.description}</p>
-          <p>{getStatusText(form.status)}</p>
+          <select
+            value={form.status}
+            onChange={event => handleStatusChange(form.id, event)}
+          >
+            <option value={1}>Private</option>
+            <option value={2}>Only authenticated users</option>
+            <option value={3}>Public</option>
+          </select>
+          <br />
           <br />
         </div>
       ))}
