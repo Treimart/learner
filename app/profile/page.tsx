@@ -3,6 +3,7 @@ import AuthButton from '@/components/AuthButton';
 import { Box, Container, Grid, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import ShowUserForms from "@/components/ShowUserForms"
 
 export default function Profile() {
 
@@ -35,33 +36,35 @@ export default function Profile() {
 
   const renderUserInfoAndActions = (userInfoArray: any[]) => {
     const userInfoItems = userInfoArray.map((info, index) => (
-      <Box key={index} sx={{ margin: '3vh 0 3vh 0' }}>{info}</Box>
-    ));
+      <Box
+        key={index}
+        sx={{ margin: "3vh 0 3vh 0" }}
+      >
+        {info}
+      </Box>
+    ))
 
-    return (
-      <div>
-        {userInfoItems}
-      </div>
-    );
-  };
+    return <div>{userInfoItems}</div>
+  }
 
   const renderUserHistoryAndFavorites = (userHistoryArray: any[]) => {
     const userHistoryItems = userHistoryArray.map((info, index) => (
-      <Box key={index} sx={{ margin: '3vh 0 3vh 0' }}>{info}</Box>
-    ));
+      <Box
+        key={index}
+        sx={{ margin: "3vh 0 3vh 0" }}
+      >
+        {info}
+      </Box>
+    ))
 
-    return (
-      <div>
-        {userHistoryItems}
-      </div>
-    )
+    return <div>{userHistoryItems}</div>
   }
 
   let userInfoArray: string[] = [" "];
   if (userData && userData.email) {
     userInfoArray = [`Email: ${userData.email}`];
   }
-  const userHistoryArray = ["Ajalugu", "Lemmikud", "Minu küsimustikud"];
+  const userHistoryArray = ["Ajalugu", "Lemmikud", "Minu küsimustikud"]
 
   if (userDataLoaded) {
     return userData.email != undefined ? (
@@ -86,6 +89,7 @@ export default function Profile() {
         <Grid item xs={6}>
           {renderUserHistoryAndFavorites(userHistoryArray)}
         </Grid>
+        <ShowUserForms />
       </Grid>
       </Container>
     ) : (
