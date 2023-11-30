@@ -8,6 +8,7 @@ interface Form {
   id: number
   title: string
   description: string
+  status: number
 }
 
 export default function ShowUserForms() {
@@ -55,6 +56,19 @@ export default function ShowUserForms() {
     router.push(`../form?form_id=${id}`)
   }
 
+  const getStatusText = (status: number) => {
+    switch (status) {
+      case 1:
+        return "Private"
+      case 2:
+        return "Only authenticated users"
+      case 3:
+        return "Public"
+      default:
+        return ""
+    }
+  }
+
   return (
     <div>
       <h1>Your Forms</h1>
@@ -68,6 +82,7 @@ export default function ShowUserForms() {
             {form.title}
           </h2>
           <p>{form.description}</p>
+          <p>{getStatusText(form.status)}</p>
           <br />
         </div>
       ))}
