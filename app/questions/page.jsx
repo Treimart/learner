@@ -2,23 +2,26 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   IconButton,
   TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 export default function CreateQuestion() {
   const supabase = createClientComponentClient();
-  const [question, setQuestion] = useState([]);
-  const [answer, setAnswer] = useState([]);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
   const [isEvaluable, setIsEvaluable] = useState(true);
   const [photo, setPhoto] = useState("");
   const [formData, setFormData] = useState("");
   const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
   const storedFormId =
     typeof window !== "undefined" ? localStorage.getItem("formId") : null;
   const formTitle = formData.title;
@@ -36,8 +39,18 @@ export default function CreateQuestion() {
     getFormData();
   }, [supabase, storedFormId]);
 
+  const handleCheckboxChange = (event) => {
+    setIsEvaluable(event.target.checked);
+    console.log(isEvaluable);
+  };
+
   const saveNewQuestion = async () => {
     try {
+      if (!question.trim() && !answer.trim()) {
+        setError("Küsimus ja/või vastus on lisamata!");
+        return;
+      }
+
       const { data: newQuestion, error } = await supabase
         .from("question")
         .insert([
@@ -57,6 +70,7 @@ export default function CreateQuestion() {
         console.log("Question saved successfully:", newQuestion);
         setMessage("Küsimus lisatud!");
       }
+
       setTimeout(() => {
         setMessage(null);
       }, 3000);
@@ -70,6 +84,7 @@ export default function CreateQuestion() {
       <Typography variant="h1">{formTitle}</Typography>
       <FormControl>
         <TextField
+          sx={{ my: 2 }}
           required
           type="text"
           size="small"
@@ -79,8 +94,8 @@ export default function CreateQuestion() {
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         />
-        <br />
         <TextField
+          sx={{ my: 2 }}
           required
           type="text"
           size="small"
@@ -90,8 +105,8 @@ export default function CreateQuestion() {
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
         />
-        <br />
         <TextField
+          sx={{ my: 2 }}
           type="text"
           size="small"
           variant="outlined"
@@ -100,16 +115,38 @@ export default function CreateQuestion() {
           value={photo}
           onChange={(e) => setPhoto(e.target.value)}
         />
-        <br />
-        <Tooltip title="Salvesta">
+        <FormControlLabel
+          required
+          control={
+            <Checkbox checked={isEvaluable} onChange={handleCheckboxChange} />
+          }
+          label="On hinnatav"
+        />
+        <Tooltip
+          title="Salvesta"
+          placement="right"
+          sx={{
+            width: "fit-content",
+            my: 2,
+          }}
+        >
           <IconButton onClick={saveNewQuestion}>
             <AddCircleRoundedIcon fontSize="large" />
           </IconButton>
         </Tooltip>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <p>{message}</p>
-        <a href="/">
-          <Button>Lõpeta</Button>
-        </a>
+        <Button
+          href="/"
+          className="py-2 px-4 rounded-md no-underline"
+          variant="contained"
+          color="primary"
+          sx={{
+            width: "fit-content",
+          }}
+        >
+          Lõpeta
+        </Button>
       </FormControl>
     </div>
   );
