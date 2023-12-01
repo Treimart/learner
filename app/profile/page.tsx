@@ -3,6 +3,7 @@ import AuthButton from '@/components/AuthButton';
 import { Box, Container, Grid, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import ShowUserForms from '@/components/ShowUserForms';
 
 export default function Profile() {
 
@@ -86,6 +87,7 @@ export default function Profile() {
         <Grid item xs={6}>
           {renderUserHistoryAndFavorites(userHistoryArray)}
         </Grid>
+        <ShowUserForms />
       </Grid>
       </Container>
     ) : (
