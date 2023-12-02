@@ -3,9 +3,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
   Button,
   Checkbox,
-  Checkbox,
   FormControl,
-  FormControlLabel,
   FormControlLabel,
   IconButton,
   TextField,
@@ -18,8 +16,6 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 export default function CreateQuestion() {
   const supabase = createClientComponentClient();
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [isEvaluable, setIsEvaluable] = useState(true);
