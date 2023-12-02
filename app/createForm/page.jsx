@@ -4,7 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button, FormControl, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function CreateForm() {
   const supabase = createClientComponentClient();
