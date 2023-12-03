@@ -194,11 +194,9 @@ export default function ViewQuestion() {
           key={questionID}
           onClick={() => setCurrentQuestionIndex(i)}
           sx={{
-            backgroundColor: currentQuestionIndex === i ? "#f50057" : null, // Change background color for active button
-            color: currentQuestionIndex === i ? "white" : null, // Change text color for active button
-            "&:hover": {
-              backgroundColor: currentQuestionIndex === i ? "#f50057" : null // Change background color for active button on hover
-            }
+            backgroundColor: currentQuestionIndex === i ? "secondary.main" : null, // Change background color for active button
+            mr: 2,
+            mb: 2
           }}
         >
           {i + 1}
@@ -215,55 +213,61 @@ export default function ViewQuestion() {
           )}
           <TextField
             id="user_answer"
-            label="Answer"
+            label="Vastus"
             variant="outlined"
-            placeholder="enter your answer"
+            placeholder="Sisesta vastus"
             value={answers[currentQuestion.id]?.answer || ""}
             onChange={handleAnswerChange}
-            inputProps={{
-              style: { color: "white" }
-            }}
+            sx={{mt: 2}}
+            fullWidth
           />
-          <br />
-
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleFinish}
-          >
-            Finish
-          </Button>
-
-          <br />
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handlePrevious}
-            disabled={currentQuestionIndex === 0}
+          <Box
             sx={{
-              "&.Mui-disabled": {
-                background: "secondary",
-                color: "#c0c0c0"
-              }
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              mt: 2
             }}
           >
-            Previous
-          </Button>
-
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleNext}
-            disabled={currentQuestionIndex === questions.length - 1}
-            sx={{
-              "&.Mui-disabled": {
-                background: "secondary",
-                color: "#c0c0c0"
-              }
-            }}
-          >
-            Next
-          </Button>
+            <Box>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handlePrevious}
+                disabled={currentQuestionIndex === 0}
+                sx={{
+                  mr: 2,
+                  "&.Mui-disabled": {
+                    background: "secondary",
+                    color: "#c0c0c0"
+                  }
+                }}
+              >
+                Eelmine
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleNext}
+                disabled={currentQuestionIndex === questions.length - 1}
+                sx={{
+                  "&.Mui-disabled": {
+                    background: "secondary",
+                    color: "#c0c0c0"
+                  }
+                }}
+              >
+                Järgmine
+              </Button>
+            </Box>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleFinish}
+            >
+              Lõpeta
+            </Button>
+          </Box>
         </>
       )}
     </Box>
