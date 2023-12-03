@@ -62,7 +62,7 @@ export default function Profile() {
   if (userData && userData.email) {
     userInfoArray = [`Email: ${userData.email}`];
   }
-  const userHistoryArray = ["Ajalugu", "Lemmikud", "Minu küsimustikud"];
+  const userHistoryArray = ["Ajalugu", "Lemmikud", <ShowUserForms />];
 
   if (userDataLoaded) {
     return userData.email != undefined ? (
@@ -87,7 +87,6 @@ export default function Profile() {
         <Grid item xs={6}>
           {renderUserHistoryAndFavorites(userHistoryArray)}
         </Grid>
-        <ShowUserForms />
       </Grid>
       </Container>
     ) : (
