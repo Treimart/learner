@@ -206,7 +206,11 @@ export default function ViewQuestion() {
         <>
           <Typography variant="h2">{currentQuestion.title}</Typography>
           {currentQuestion.photo_url && (
-            <img
+            <Box
+              component="img"
+              sx={{
+                maxHeight: 300
+              }}
               src={currentQuestion.photo_url}
               alt={currentQuestion.title}
             />
