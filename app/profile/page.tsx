@@ -4,6 +4,7 @@ import { Box, Container, Grid, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ShowUserForms from '@/components/ShowUserForms';
+import ShowUserFavorites from '@/components/ShowUserFavorites';
 
 export default function Profile() {
 
@@ -62,7 +63,7 @@ export default function Profile() {
   if (userData && userData.email) {
     userInfoArray = [`Email: ${userData.email}`];
   }
-  const userHistoryArray = ["Ajalugu", "Lemmikud", <ShowUserForms />];
+  const userHistoryArray = ["Ajalugu", <ShowUserFavorites />, <ShowUserForms />];
 
   if (userDataLoaded) {
     return userData.email != undefined ? (
