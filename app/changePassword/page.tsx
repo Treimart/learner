@@ -17,7 +17,7 @@ export default function changePassword() {
       setColor('green')
       setPassword('')
     } else {
-      console.log("couldn't update:", error.message)
+      //console.log("couldn't update:", error.message)
       setMessage(error.message)
       setColor('red')
       setPassword('')
