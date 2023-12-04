@@ -7,15 +7,21 @@ export default function changePassword() {
   const supabase = createClientComponentClient()
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
+  const [color, setColor] = useState("")
+
 
   const handlePasswordChange = async () => {
-    try{
-      await supabase.auth.updateUser({ password: password })
+    const { error } = await supabase.auth.updateUser({ password: password })
+    if (!error) {
       setMessage('Parool uuendatud!')
-    } catch (error) {
-      console.log("couldn't update:", error)
+      setColor('green')
+      setPassword('')
+    } else {
+      console.log("couldn't update:", error.message)
+      setMessage(error.message)
+      setColor('red')
+      setPassword('')
     }
-
   }
   return (
     <Box
@@ -34,6 +40,7 @@ export default function changePassword() {
         sx={{
           mt: 2
         }}
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button
@@ -46,7 +53,7 @@ export default function changePassword() {
       >
         Salvesta
       </Button>
-      <Typography variant="subtitle1" color="green">{message}</Typography>
+      <Typography variant="subtitle1" color={color}>{message}</Typography>
     </Box>
   )
 }
