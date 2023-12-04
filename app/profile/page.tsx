@@ -59,6 +59,10 @@ export default function Profile() {
     )
   }
 
+  const resetPassword = async () => {
+    window.location.href = "/changePassword"
+  }
+
   let userInfoArray: string[] = [" "];
   if (userData && userData.email) {
     userInfoArray = [`Email: ${userData.email}`];
@@ -74,7 +78,7 @@ export default function Profile() {
           {renderUserInfoAndActions(userInfoArray)}
           <Box sx={{ margin: '3vh 0 3vh 0' }}>
             <Button 
-              className="py-2 px-4 rounded-md no-underline"
+              onClick={() => resetPassword()}
               variant="contained"
               color="primary"
             >
