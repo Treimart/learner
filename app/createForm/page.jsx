@@ -1,7 +1,7 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Button, FormControl, TextField } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -43,12 +43,12 @@ export default function CreateForm() {
   const saveNewForm = async () => {
     try {
       if (!userID) {
-        console.error("User is not authenticated");
+        console.error("Kasutaja ei ole autenditud");
         return;
       }
 
       if (!formTitle.trim() || !formDescription.trim()) {
-        setError("Name and description are required");
+        setError("Nimi ja kirjeldus on kohustuslikud");
         return;
       }
 
@@ -84,9 +84,17 @@ export default function CreateForm() {
   };
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+    <Box
+      sx={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start'
+      }}
+    >
+      <Typography variant="h1">Loo uus küsimustik</Typography>
       <FormControl>
         <TextField
+          required
           type="text"
           size="small"
           variant="outlined"
@@ -97,9 +105,13 @@ export default function CreateForm() {
             maxLength: 30,
           }}
           onChange={(e) => setFormTitle(e.target.value)}
+          sx={{
+            mb: 2,
+            width: '30rem'
+          }}
         />
-        <br />
         <TextField
+          required
           type="text"
           size="small"
           variant="outlined"
@@ -110,28 +122,39 @@ export default function CreateForm() {
             maxLength: 75,
           }}
           onChange={(e) => setFormDescription(e.target.value)}
+          sx={{
+            mb: 2
+          }}
         />
-        <br />
-        <select
-          placeholder="Vali kategooria"
-          size="lg"
-          variant="plain"
-          color="neutral"
+        <TextField
+          select
           id="categorySelect"
-          value={selectedCategoryId}
+          value={categories.length ? selectedCategoryId : ""}
+          label="Kategooria"
           onChange={(e) => setSelectedCategoryId(e.target.value)}
+          sx={{
+            mb: 2
+          }}
         >
           {categories.map(({ id, name }) => (
-            <option key={id} value={id}>
+            <MenuItem key={id} value={JSON.stringify(id)}>
               {name}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-        <br />
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        <Button onClick={saveNewForm}>Loo küsimustik</Button>
+        </TextField>
+        {error && <Typography style={{ color: "red" }}>{error}</Typography>}
+        <Button 
+          variant="contained"
+          color="primary"
+          onClick={saveNewForm}
+          sx={{
+            mt: 2
+          }}
+        >
+          Loo küsimustik
+        </Button>
       </FormControl>
       <SaveNewCategory />
-    </div>
+    </Box>
   );
 }
