@@ -25,7 +25,8 @@ export default function ViewQuestion() {
   const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
   const [markedQuestions, setMarkedQuestions] = useState([])
-
+  const [isValid, setIsValid] = useState(false)
+  
   // Get the current question
   const currentQuestion = questions[currentQuestionIndex]
   const formTitle = formData.title
@@ -172,6 +173,18 @@ export default function ViewQuestion() {
       }
     })
   }
+
+  useEffect(() => {
+    const length = Object.keys(answers).length
+    if ( length == 0 || length < questions.length) {
+      setIsValid(false) // No answers yet, set isValid to false
+    } else {
+      const allAnswersValid = Object.values(answers).every((a) => {
+        return a.answer.length > 0
+      })
+      setIsValid(allAnswersValid)
+    }
+  }, [answers])
 
 
   // Handlers for next and previous buttons
@@ -368,6 +381,7 @@ export default function ViewQuestion() {
               color="primary"
               variant="contained"
               onClick={handleFinish}
+              disabled={!isValid}
             >
               Lõpeta
             </Button>
