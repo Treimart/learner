@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ShowUserForms from '@/components/ShowUserForms';
 import ShowUserFavorites from '@/components/ShowUserFavorites';
+import ShowUserHistory from '@/components/ShowUserHistory';
 
 export default function Profile() {
 
@@ -67,7 +68,7 @@ export default function Profile() {
   if (userData && userData.email) {
     userInfoArray = [`Email: ${userData.email}`];
   }
-  const userHistoryArray = ["Ajalugu", <ShowUserFavorites />, <ShowUserForms />];
+  const userHistoryArray = [<ShowUserHistory/>, <ShowUserFavorites />, <ShowUserForms />];
 
   if (userDataLoaded) {
     return userData.email != undefined ? (
