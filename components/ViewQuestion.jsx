@@ -7,8 +7,8 @@ import { useSearchParams } from "next/navigation"
 import { format } from "date-fns";
 
 import { Box, Button, Typography, TextField, IconButton } from "@mui/material"
-import StarIcon from '@mui/icons-material/Star';
-
+import StarIcon from '@mui/icons-material/Star'
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 
 export default function ViewQuestion() {
   const supabase = createClientComponentClient()
@@ -24,6 +24,7 @@ export default function ViewQuestion() {
   const [userID, setUserID] = useState("")
   const [userIDLoaded, setUserIDLoaded] = useState(false)
   const [answers, setAnswers] = useState({})
+  const [markedQuestions, setMarkedQuestions] = useState([])
 
   // Get the current question
   const currentQuestion = questions[currentQuestionIndex]
@@ -31,12 +32,13 @@ export default function ViewQuestion() {
 
   useEffect(() => {
     const getQuestions = async () => {
-      const { data } = await supabase
+      const { data, count } = await supabase
         .from("question")
-        .select()
+        .select('*', { count: 'exact' })
         .eq("form_id", form_id)
       if (data) {
         setQuestions(data)
+        setMarkedQuestions(Array(count).fill(0))
       }
     }
     getQuestions()
@@ -138,6 +140,27 @@ export default function ViewQuestion() {
         console.error("An error occurred:", error.message)
       }
     }
+  }
+
+  const markQuestion = async () => {
+    try {
+      if (markedQuestions[currentQuestionIndex] == 0) {
+        setMarkedQuestions(prevMarkedQuestions => {
+          const updatedMarks = [...prevMarkedQuestions]
+          updatedMarks[currentQuestionIndex] = 1
+          return updatedMarks
+        })
+      } else {
+        setMarkedQuestions(prevMarkedQuestions => {
+          const updatedMarks = [...prevMarkedQuestions]
+          updatedMarks[currentQuestionIndex] = 0
+          return updatedMarks
+        })
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+    //console.log(markedQuestions)
   }
 
   const handleAnswerChange = e => {
@@ -247,6 +270,15 @@ export default function ViewQuestion() {
           }}
         >
           {i + 1}
+          {markedQuestions[i] == 1 &&
+            <PriorityHighIcon 
+              fontSize="small" 
+              sx={{
+                position: 'absolute',
+                right: 5
+              }}
+            />
+          }
         </Button>
       ))}
       {currentQuestion && (
@@ -272,6 +304,27 @@ export default function ViewQuestion() {
             sx={{mt: 2}}
             fullWidth
           />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              mt: 2
+            }}
+          >
+            <IconButton onClick={markQuestion}>
+              <PriorityHighIcon 
+                fontSize="medium"
+                sx={{
+                  color: 'primary.main',
+                  "&:hover": {
+                    color: 'secondary.main'
+                  }
+                }}
+              />
+            </IconButton>
+            <Typography variant="subtitle1">Märgista küsimus, et hiljem selle juurde tagasi tulla</Typography>
+          </Box>
           <Box
             sx={{
               display: 'flex',
