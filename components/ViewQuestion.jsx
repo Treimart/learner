@@ -75,7 +75,7 @@ export default function ViewQuestion() {
   }, [])
   //console.log("form:", form_id, " user:", userID)
 
-  if (userIDLoaded) {
+  if (userIDLoaded && userID != 0) {
     const getInitialFavorite = async () => {
       const { data } = await supabase
         .from("favorite")
@@ -204,44 +204,45 @@ export default function ViewQuestion() {
     localStorage.setItem("answers", JSON.stringify(answers))
     const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
 
-    try {
-      const { data: hist, count } = await supabase
-        .from("history")
-        .select('*', { count: 'exact' })
-        .match({ form_id: form_id, user_id: userID })
-      console.log(hist, count)
-      if ( count == 0 ) {
-        const { data, error } = await supabase
+    if ( userID != 0 ) {
+      try {
+        const { data: hist, count } = await supabase
           .from("history")
-          .insert([
-            {
-              user_id: userID,
-              form_id: form_id,
-              lastcompletion: currentTimestamp
-            },
-          ])
+          .select('*', { count: 'exact' })
+          .match({ form_id: form_id, user_id: userID })
+        //console.log(hist, count)
+        if ( count == 0 ) {
+          const { data, error } = await supabase
+            .from("history")
+            .insert([
+              {
+                user_id: userID,
+                form_id: form_id,
+                lastcompletion: currentTimestamp
+              },
+            ])
+            .select()
+          if (error) {
+            console.error("Error saving hist:", error.message);
+          } else {
+            console.log("hist saved successfully:", data);
+          }
+        } else if ( count == 1 ) {
+          const { data, error } = await supabase
+          .from("history")
+          .update({ lastcompletion: currentTimestamp })
+          .match({ form_id: form_id, user_id: userID })
           .select()
         if (error) {
           console.error("Error saving hist:", error.message);
         } else {
-          console.log("hist saved successfully:", data);
+          console.log("hist udated successfully:", data);
         }
-      } else if ( count == 1 ) {
-        const { data, error } = await supabase
-        .from("history")
-        .update({ lastcompletion: currentTimestamp })
-        .match({ form_id: form_id, user_id: userID })
-        .select()
-      if (error) {
-        console.error("Error saving hist:", error.message);
-      } else {
-        console.log("hist udated successfully:", data);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error.message)
       }
-      }
-    } catch (error) {
-      console.error("An error occurred:", error.message)
     }
-
     router.push("/results/")
   }
 
@@ -258,7 +259,7 @@ export default function ViewQuestion() {
         }}
       >
         <Typography variant="h1">{formTitle}</Typography>
-        <IconButton onClick={saveNewFavorite}>
+        {userID != 0 && <IconButton onClick={saveNewFavorite}>
           <StarIcon 
             fontSize="large"
             sx={{
@@ -268,7 +269,7 @@ export default function ViewQuestion() {
               }
             }}
           />
-        </IconButton>
+        </IconButton>}
       </Box>
       
       {questions.map(({ id: questionID }, i) => (
