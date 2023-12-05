@@ -34,7 +34,7 @@ export default function MainPageCategories() {
         const id = data.session.user.id
         setUserID(id)
       } else {
-        console.log("123")
+        //console.log("123")
         setUserID(0)
       }
       setUserIDLoaded(true)
