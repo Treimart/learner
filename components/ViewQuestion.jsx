@@ -55,15 +55,21 @@ export default function ViewQuestion() {
     getFormData()
   }, [supabase, form_id])
 
-  const getUserID = async () => {
-    const { data } = await supabase.auth.getUser()
-    if (data) {
-      const id = data.user.id
-      setUserID(id)
+  useEffect(() => {
+    const getUserID = async () => {
+      const { data } = await supabase.auth.getSession()
+      //console.log(data.session)
+      if (data.session != null) {
+        const id = data.session.user.id
+        setUserID(id)
+      } else {
+        //console.log("123")
+        setUserID("0")
+      }
       setUserIDLoaded(true)
     }
-  }
-  getUserID()
+    getUserID()
+  }, [])
   //console.log("form:", form_id, " user:", userID)
 
   if (userIDLoaded) {
