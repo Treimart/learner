@@ -4,6 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
+import { format } from "date-fns";
 
 import { Box, Button, Typography, TextField, IconButton } from "@mui/material"
 import StarIcon from '@mui/icons-material/Star';
@@ -157,8 +158,48 @@ export default function ViewQuestion() {
     }
   }
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
     localStorage.setItem("answers", JSON.stringify(answers))
+    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+
+    try {
+      const { data: hist, count } = await supabase
+        .from("history")
+        .select('*', { count: 'exact' })
+        .match({ form_id: form_id, user_id: userID })
+      console.log(hist, count)
+      if ( count == 0 ) {
+        const { data, error } = await supabase
+          .from("history")
+          .insert([
+            {
+              user_id: userID,
+              form_id: form_id,
+              lastcompletion: currentTimestamp
+            },
+          ])
+          .select()
+        if (error) {
+          console.error("Error saving hist:", error.message);
+        } else {
+          console.log("hist saved successfully:", data);
+        }
+      } else if ( count == 1 ) {
+        const { data, error } = await supabase
+        .from("history")
+        .update({ lastcompletion: currentTimestamp })
+        .match({ form_id: form_id, user_id: userID })
+        .select()
+      if (error) {
+        console.error("Error saving hist:", error.message);
+      } else {
+        console.log("hist udated successfully:", data);
+      }
+      }
+    } catch (error) {
+      console.error("An error occurred:", error.message)
+    }
+
     router.push("/results/")
   }
 
