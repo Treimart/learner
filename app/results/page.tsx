@@ -6,6 +6,7 @@ type Answer = {
   title: string
   answer: string
   correctAnswer?: string
+  is_evaluable?: boolean
 }
 
 export default function ResultsPage() {
@@ -21,17 +22,26 @@ export default function ResultsPage() {
 
   useEffect(() => {
     const fetchCorrectAnswers = async () => {
-      const { data } = await supabase.from("question").select("id, answer")
+      const { data } = await supabase
+        .from("question")
+        .select("id, answer, is_evaluable")
       if (data) {
         const correctAnswers = Object.fromEntries(
-          data.map(({ id, answer }) => [id, answer])
+          data.map(({ id, answer, is_evaluable }) => [
+            id,
+            { answer, is_evaluable }
+          ])
         )
         setAnswers(prevAnswers => {
           return Object.fromEntries(
             Object.entries(prevAnswers).map(([questionId, answer]) => {
               return [
                 questionId,
-                { ...answer, correctAnswer: correctAnswers[questionId] }
+                {
+                  ...answer,
+                  correctAnswer: correctAnswers[questionId]?.answer,
+                  is_evaluable: correctAnswers[questionId]?.is_evaluable
+                }
               ]
             })
           )
@@ -44,10 +54,20 @@ export default function ResultsPage() {
   return (
     <div>
       {Object.entries(answers).map(
-        ([questionId, { title, answer, correctAnswer }]) => (
+        ([questionId, { title, answer, correctAnswer, is_evaluable }]) => (
           <div key={questionId}>
             <h2>Question: {title}</h2>
-            <p>Your Answer: {String(answer)}</p>
+            <p
+              style={{
+                color: is_evaluable
+                  ? answer == correctAnswer
+                    ? "green"
+                    : "red"
+                  : "black"
+              }}
+            >
+              Your Answer: {String(answer)}
+            </p>
             {correctAnswer && <p>Correct Answer: {correctAnswer}</p>}
             <br />
           </div>
