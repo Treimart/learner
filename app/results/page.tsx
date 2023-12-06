@@ -60,7 +60,7 @@ export default function ResultsPage() {
             <p
               style={{
                 color: is_evaluable
-                  ? answer == correctAnswer
+                  ? answer.toLowerCase() == correctAnswer?.toLowerCase()
                     ? "green"
                     : "red"
                   : "black"
