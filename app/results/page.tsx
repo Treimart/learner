@@ -56,7 +56,7 @@ export default function ResultsPage() {
       {Object.entries(answers).map(
         ([questionId, { title, answer, correctAnswer, is_evaluable }]) => (
           <div key={questionId}>
-            <h2>Question: {title}</h2>
+            <h2>Küsimus: {title}</h2>
             <p
               style={{
                 color: is_evaluable
@@ -66,9 +66,9 @@ export default function ResultsPage() {
                   : "black"
               }}
             >
-              Your Answer: {String(answer)}
+              Sinu vastus: {String(answer)}
             </p>
-            {correctAnswer && <p>Correct Answer: {correctAnswer}</p>}
+            {correctAnswer && <p>Õige vastus: {correctAnswer}</p>}
             <br />
           </div>
         )
