@@ -1,9 +1,21 @@
 insert into
 category (name)
 values
-('Nature'),
-('History'),
-('Math');
+('Loodus'),
+('Ajalugu'),
+('Matemaatika'),
+('Tehnoloogia'),
+('Teadus'),
+('Kunst'),
+('Kirjandus'),
+('Muusika'),
+('Psühholoogia'),
+('Filosoofia'),
+('Majandus'),
+('Geograafia'),
+('Tervis'),
+('Kultuur'),
+('Filmindus');
 
 insert into
 form (category_id, title, description, status, created)
