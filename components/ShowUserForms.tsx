@@ -136,7 +136,7 @@ export default function ShowUserForms() {
             p: 2,
             m: 1,
             width: 350,
-            height: 175
+            height: 200
           }}
         >
           <Box
@@ -173,7 +173,9 @@ export default function ShowUserForms() {
               />
             </Tooltip>
           </Box>
-          <Typography>{form.description}</Typography>
+          <Typography sx={{ minHeight: "60px", margin: "0.65em 0" }}>
+            {form.description}
+          </Typography>
           <FormControl
             sx={{
               mt: 1,
