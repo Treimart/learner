@@ -105,9 +105,19 @@ export default function Profile() {
           >
             {renderUserHistoryAndFavorites(userHistoryArray)}
           </Grid>
-          <Typography variant="h3">Sinu lemmikud</Typography>
+          <Typography
+            variant="h3"
+            sx={{ margin: "25px 0" }}
+          >
+            Sinu lemmikud
+          </Typography>
           <ShowUserFavorites />
-          <Typography variant="h3">Sinu küsimustikud:</Typography>
+          <Typography
+            variant="h3"
+            sx={{ margin: "25px 0" }}
+          >
+            Sinu küsimustikud
+          </Typography>
           <ShowUserForms />
         </Grid>
       </Container>
