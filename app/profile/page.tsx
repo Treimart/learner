@@ -106,7 +106,7 @@ export default function Profile() {
             {renderUserHistoryAndFavorites(userHistoryArray)}
           </Grid>
           <Typography
-            variant="h3"
+            variant="h4"
             sx={{ margin: "25px 0" }}
           >
             Sinu lemmikud
