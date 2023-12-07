@@ -29,4 +29,12 @@ CREATE POLICY "Enable update for users based on user_id" ON "public"."form"
 AS PERMISSIVE FOR UPDATE
 TO authenticated
 USING (auth.uid() = user_id)
-WITH CHECK (auth.uid() = user_id)
+WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Form is updatable by user"
+ON public.form
+FOR UPDATE USING (
+  auth.uid() = user_id
+)  WITH CHECK (
+  auth.uid() = user_id
+);
