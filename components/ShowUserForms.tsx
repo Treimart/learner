@@ -3,9 +3,20 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip, Typography } from "@mui/material";
-import { format } from "date-fns";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import {
+  Box,
+  Grid,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Tooltip,
+  Typography
+} from "@mui/material"
+import { format } from "date-fns"
 
 interface Form {
   id: number
@@ -40,13 +51,13 @@ export default function ShowUserForms() {
   const [forms, setForms] = useState<Form[]>([])
 
   const getForms = async () => {
-    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss")
     const { data } = await supabase
       .from("form")
       .select()
       .eq("user_id", userID)
       .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
-      .order('id', { ascending: true })
+      .order("id", { ascending: true })
     if (data) {
       setForms(data)
     }
@@ -86,10 +97,10 @@ export default function ShowUserForms() {
   }
 
   const deleteForm = async (id: number) => {
-    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss")
     const { data, error } = await supabase
       .from("form")
-      .update({ deleted: currentTimestamp})
+      .update({ deleted: currentTimestamp })
       .match({ id: id })
       .select()
     if (error) {
@@ -101,66 +112,78 @@ export default function ShowUserForms() {
   }
 
   return (
-    <Box
+    <Grid
+      container
       sx={{
-        display: 'flex',
-        flexDirection: 'column'
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+        gap: "16px",
+        justifyContent: "space-between",
+        alignItems: "baseline"
       }}
     >
-      <Typography variant="h3">Sinu küsimustikud</Typography>
       {forms.map(form => (
-          <Box 
-            key={form.id}
+        <Grid
+          item
+          key={form.id}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            border: 1,
+            borderColor: "primary.main",
+            boxShadow: 1,
+            borderRadius: 2,
+            p: 2,
+            m: 2,
+            width: 350,
+            height: 175
+          }}
+        >
+          <Box
             sx={{
-              display: 'flex',
-              flexDirection: 'column'
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center"
             }}
           >
-            <Box
+            <Button
+              key={form.id}
               sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center'
+                justifyContent: "flex-start",
+                width: "fit-content",
+                mr: 2
               }}
+              variant="outlined"
+              color="primary"
+              onClick={() => handleClick(form.id)}
             >
-              <Button 
-                key={form.id}
+              {form.title}
+            </Button>
+            <Tooltip
+              title="Kustuta"
+              placement="right"
+              arrow
+            >
+              <DeleteOutlineIcon
+                onClick={() => deleteForm(form.id)}
                 sx={{
-                  justifyContent: 'flex-start',
-                  width: 'fit-content',
-                  mr: 2
+                  color: "red",
+                  cursor: "pointer"
                 }}
-                variant="outlined" 
-                color="primary"
-                onClick={() => handleClick(form.id)} 
-              >
-                {form.title}
-              </Button>
-              <Tooltip
-                title="Kustuta"
-                placement="right"
-                arrow
-              >
-                <DeleteOutlineIcon 
-                  onClick={() => deleteForm(form.id)}
-                  sx={{
-                    color: "red",
-                    cursor: "pointer"
-                  }}
-                />
-              </Tooltip>
-            </Box>
-            <Typography>{form.description}</Typography>
-            <FormControl 
-              sx={{ 
-                mt: 1,
-                mb: 2, 
-                minWidth: 200,
-                justifyContent: 'flex-start',
-                width: 'fit-content' 
-              }} 
-              size="small"
-            >
+              />
+            </Tooltip>
+          </Box>
+          <Typography>{form.description}</Typography>
+          <FormControl
+            sx={{
+              mt: 1,
+              mb: 2,
+              minWidth: 200,
+              justifyContent: "flex-start",
+              width: "fit-content"
+            }}
+            size="small"
+          >
             <InputLabel id="formStatus">Olek</InputLabel>
             <Select
               labelId="formStatusLabel"
@@ -174,9 +197,8 @@ export default function ShowUserForms() {
               <MenuItem value={3}>Avalik</MenuItem>
             </Select>
           </FormControl>
-
-        </Box>
+        </Grid>
       ))}
-    </Box>
+    </Grid>
   )
 }
