@@ -45,7 +45,7 @@ export default function CreateForm() {
       }
     };
     getCategories();
-  }, [supabase, setCategories]);
+  });
 
   const saveNewForm = async () => {
     try {
