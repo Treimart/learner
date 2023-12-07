@@ -57,23 +57,43 @@ export default function ShowUserFavorites() {
     <Grid
       container
       sx={{
-        display: "flex",
-        flexDirection: "column"
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+        gap: "16px",
+        justifyContent: "space-between",
+        alignItems: "baseline"
       }}
     >
       {forms.map(form => (
-        <Button
+        <Grid
+          item
           key={form.id}
           sx={{
-            justifyContent: "flex-start",
-            width: "fit-content"
+            display: "flex",
+            flexDirection: "column",
+            border: 1,
+            borderColor: "primary.main",
+            boxShadow: 1,
+            borderRadius: 2,
+            p: 2,
+            m: 1,
+            width: 350,
+            height: 70
           }}
-          variant="text"
-          color="primary"
-          onClick={() => router.push("/form?form_id=" + form.id)}
         >
-          {form.title}
-        </Button>
+          <Button
+            key={form.id}
+            sx={{
+              justifyContent: "flex-start",
+              width: "fit-content"
+            }}
+            variant="text"
+            color="primary"
+            onClick={() => router.push("/form?form_id=" + form.id)}
+          >
+            {form.title}
+          </Button>
+        </Grid>
       ))}
     </Grid>
   )
