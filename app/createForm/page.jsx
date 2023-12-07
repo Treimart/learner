@@ -5,6 +5,7 @@ import { Button, FormControl, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
+import SaveNewCategory from "@/components/SaveNewCategory"
 
 export default function CreateForm() {
   const supabase = createClientComponentClient();
@@ -124,6 +125,7 @@ export default function CreateForm() {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <Button onClick={saveNewForm}>Loo küsimustik</Button>
       </FormControl>
+      <SaveNewCategory />
     </div>
   );
 }
