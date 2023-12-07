@@ -17,7 +17,9 @@ export default function MainPageCategories() {
 
   useEffect(() => {
     const getCategories = async () => {
-      const { data } = await supabase.from("category").select();
+      const { data } = await supabase
+        .from('category')
+        .select()
       if (data) {
         setCategories(data);
       }
@@ -29,12 +31,12 @@ export default function MainPageCategories() {
   const [userIDLoaded, setUserIDLoaded] = useState(false);
   useEffect(() => {
     const getUserID = async () => {
-      const { data } = await supabase.auth.getSession();
+      const { data } = await supabase.auth.getSession()
       if (data.session != null) {
         const id = data.session.user.id;
         setUserID(id);
       } else {
-        setUserID(0);
+        setUserID(0)
       }
       setUserIDLoaded(true);
     };
@@ -43,24 +45,29 @@ export default function MainPageCategories() {
 
   const getForms = async () => {
     if (userID == 0) {
-      const { data } = await supabase.from("form").select().eq("status", 3);
+      const { data } = await supabase
+        .from('form')
+        .select()
+        .is('deleted', null)
+        .eq('status', 3)
       if (data) {
-        setForms(data);
+        setForms(data)
       }
     } else {
       const { data } = await supabase
         .from("form")
         .select()
+        .is('deleted', null)
         .or(`status.eq.3,status.eq.2,and(status.eq.1,user_id.eq.${userID})`);
       if (data) {
-        setForms(data);
+        setForms(data)
       }
     }
   };
 
   useEffect(() => {
     if (userIDLoaded) {
-      getForms();
+      getForms()
     }
   }, [userID]);
 
