@@ -92,6 +92,9 @@ export default function CreateForm() {
           label="Nimi"
           id="formName"
           value={formTitle}
+          inputProps={{
+            maxLength: 30,
+          }}
           onChange={(e) => setFormTitle(e.target.value)}
         />
         <br />
@@ -102,6 +105,9 @@ export default function CreateForm() {
           label="Kirjeldus"
           id="formDescription"
           value={formDescription}
+          inputProps={{
+            maxLength: 75,
+          }}
           onChange={(e) => setFormDescription(e.target.value)}
         />
         <br />
