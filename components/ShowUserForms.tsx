@@ -46,6 +46,7 @@ export default function ShowUserForms() {
       .select()
       .eq("user_id", userID)
       .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
+      .order('id', { ascending: true })
     if (data) {
       setForms(data)
     }
