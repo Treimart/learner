@@ -1,6 +1,6 @@
 "use client"
 import AuthButton from "@/components/AuthButton"
-import { Box, Container, Grid, Button } from "@mui/material"
+import { Box, Container, Grid, Button, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import ShowUserForms from "@/components/ShowUserForms"
@@ -105,6 +105,7 @@ export default function Profile() {
           >
             {renderUserHistoryAndFavorites(userHistoryArray)}
           </Grid>
+          <Typography variant="h3">Sinu küsimustikud:</Typography>
           <ShowUserForms />
         </Grid>
       </Container>
