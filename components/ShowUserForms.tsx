@@ -45,7 +45,7 @@ export default function ShowUserForms() {
       .from("form")
       .select()
       .eq("user_id", userID)
-      .gt("deleted", currentTimestamp)
+      .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
     if (data) {
       setForms(data)
     }
@@ -69,10 +69,11 @@ export default function ShowUserForms() {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const newStatus = parseInt(event.target.value)
+    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss")
     console.log("Changing status for form id", id, "to", newStatus)
     const { data, error } = await supabase
       .from("form")
-      .update({ status: newStatus })
+      .update({ status: newStatus, updated: currentTimestamp })
       .match({ id: id })
       .select()
     if (error) {
