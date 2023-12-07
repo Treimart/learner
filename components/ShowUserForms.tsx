@@ -116,7 +116,7 @@ export default function ShowUserForms() {
       container
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
         gap: "16px",
         justifyContent: "space-between",
         alignItems: "baseline"
