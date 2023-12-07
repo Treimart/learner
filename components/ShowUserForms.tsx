@@ -3,6 +3,9 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Tooltip } from "@mui/material";
+import { format } from "date-fns";
 
 interface Form {
   id: number
@@ -75,6 +78,21 @@ export default function ShowUserForms() {
     getForms()
   }
 
+  const deleteForm = async (id: number) => {
+    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+    const { data, error } = await supabase
+      .from("form")
+      .update({ deleted: currentTimestamp})
+      .match({ id: id })
+      .select()
+    if (error) {
+      console.error("Error updating delete:", error)
+    } else {
+      console.log("Deleted form:", data)
+      getForms()
+    }
+  }
+
   return (
     <div>
       <h1>Sinu küsimustikud</h1>
@@ -97,6 +115,19 @@ export default function ShowUserForms() {
             <option value={3}>Avalik</option>
           </select>
           <br />
+          <Tooltip
+            title="Kustuta"
+            placement="right"
+            arrow
+          >
+            <DeleteOutlineIcon 
+              onClick={() => deleteForm(form.id)}
+              sx={{
+                color: "red",
+                cursor: "pointer"
+              }}
+            />
+          </Tooltip>
           <br />
         </div>
       ))}
