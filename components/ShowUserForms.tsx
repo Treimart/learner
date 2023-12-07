@@ -134,7 +134,7 @@ export default function ShowUserForms() {
             boxShadow: 1,
             borderRadius: 2,
             p: 2,
-            m: 2,
+            m: 1,
             width: 350,
             height: 175
           }}
