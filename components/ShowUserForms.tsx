@@ -40,7 +40,12 @@ export default function ShowUserForms() {
   const [forms, setForms] = useState<Form[]>([])
 
   const getForms = async () => {
-    const { data } = await supabase.from("form").select().eq("user_id", userID)
+    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+    const { data } = await supabase
+      .from("form")
+      .select()
+      .eq("user_id", userID)
+      .gt("deleted", currentTimestamp)
     if (data) {
       setForms(data)
     }
