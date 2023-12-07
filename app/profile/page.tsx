@@ -70,7 +70,7 @@ export default function Profile() {
   if (userDataLoaded) {
     return userData.email != undefined ? (
       <Container sx={{ width: "100%" }}>
-        PROFIILI ANDMED
+        <Typography variant="h4">PROFIILI ANDMED</Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             {renderUserInfoAndActions(userInfoArray)}
