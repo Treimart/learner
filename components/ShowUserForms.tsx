@@ -4,7 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Tooltip } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip, Typography } from "@mui/material";
 import { format } from "date-fns";
 
 interface Form {
@@ -66,9 +66,9 @@ export default function ShowUserForms() {
 
   const handleStatusChange = async (
     id: number,
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: SelectChangeEvent<number>
   ) => {
-    const newStatus = parseInt(event.target.value)
+    const newStatus = event.target.value
     const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss")
     console.log("Changing status for form id", id, "to", newStatus)
     const { data, error } = await supabase
@@ -100,43 +100,82 @@ export default function ShowUserForms() {
   }
 
   return (
-    <div>
-      <h1>Sinu küsimustikud</h1>
-      <br />
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
+      <Typography variant="h3">Sinu küsimustikud</Typography>
       {forms.map(form => (
-        <div key={form.id}>
-          <h2
-            onClick={() => handleClick(form.id)}
-            style={{ cursor: "pointer" }}
+          <Box 
+            key={form.id}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}
           >
-            {form.title}
-          </h2>
-          <p>{form.description}</p>
-          <select
-            value={form.status}
-            onChange={event => handleStatusChange(form.id, event)}
-          >
-            <option value={1}>Privaatne</option>
-            <option value={2}>Kontodega kasutajad</option>
-            <option value={3}>Avalik</option>
-          </select>
-          <br />
-          <Tooltip
-            title="Kustuta"
-            placement="right"
-            arrow
-          >
-            <DeleteOutlineIcon 
-              onClick={() => deleteForm(form.id)}
+            <Box
               sx={{
-                color: "red",
-                cursor: "pointer"
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center'
               }}
-            />
-          </Tooltip>
-          <br />
-        </div>
+            >
+              <Button 
+                key={form.id}
+                sx={{
+                  justifyContent: 'flex-start',
+                  width: 'fit-content',
+                  mr: 2
+                }}
+                variant="outlined" 
+                color="primary"
+                onClick={() => handleClick(form.id)} 
+              >
+                {form.title}
+              </Button>
+              <Tooltip
+                title="Kustuta"
+                placement="right"
+                arrow
+              >
+                <DeleteOutlineIcon 
+                  onClick={() => deleteForm(form.id)}
+                  sx={{
+                    color: "red",
+                    cursor: "pointer"
+                  }}
+                />
+              </Tooltip>
+            </Box>
+            <Typography>{form.description}</Typography>
+            <FormControl 
+              sx={{ 
+                mt: 1,
+                mb: 2, 
+                minWidth: 200,
+                justifyContent: 'flex-start',
+                width: 'fit-content' 
+              }} 
+              size="small"
+            >
+            <InputLabel id="formStatus">Olek</InputLabel>
+            <Select
+              labelId="formStatusLabel"
+              id="formStatus"
+              value={form.status}
+              label="Olek"
+              onChange={event => handleStatusChange(form.id, event)}
+            >
+              <MenuItem value={1}>Privaatne</MenuItem>
+              <MenuItem value={2}>Kontodega kasutajad</MenuItem>
+              <MenuItem value={3}>Avalik</MenuItem>
+            </Select>
+          </FormControl>
+
+        </Box>
       ))}
-    </div>
+    </Box>
   )
 }
