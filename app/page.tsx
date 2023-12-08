@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 import InspirationalQuote from "../components/InspirationalQuote"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import MainPageForms from "@/components/MainPageForms"
-
+import MainPageUserForms from "@/components/MainPageUserForms"
 
 
 export default async function Index() {
@@ -18,8 +18,9 @@ export default async function Index() {
   return (
     <div className="flex-1 flex flex-col w-full px-8 justify-center gap-2">
       <h1 className="flex flex-col items-center">main page</h1>
-      <InspirationalQuote />
-      <MainPageForms />
+        <InspirationalQuote />
+        <MainPageUserForms />
+        <MainPageForms />
     </div>
   )
 }
