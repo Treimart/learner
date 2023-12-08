@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Button } from "@mui/material"
+import { useSearchParams } from "next/navigation"
 
 type Answer = {
   title: string
@@ -13,9 +14,8 @@ type Answer = {
 export default function ResultsPage() {
   const supabase = createClientComponentClient()
   const [answers, setAnswers] = useState<Record<string, Answer>>({})
-  const [userID, setUserID] = useState("")
-  const [userIDLoaded, setUserIDLoaded] = useState(false)
-  const [latestEntry, setLatestEntry] = useState<any>(null)
+  const searchParams = useSearchParams()
+  const form_id = searchParams.get("form_id") 
 
   useEffect(() => {
     const savedAnswers = localStorage.getItem("answers")
@@ -55,43 +55,6 @@ export default function ResultsPage() {
     fetchCorrectAnswers()
   }, [supabase])
 
-   useEffect(() => {
-    const getUserID = async () => {
-      const { data } = await supabase.auth.getSession()
-      if (data.session != null) {
-        const id = data.session.user.id
-        setUserID(id)
-      } else {
-        setUserID("0")
-      }
-      setUserIDLoaded(true)
-    }
-    getUserID()
-  }, [])
-  
-  useEffect(() => {
-    if (userIDLoaded && userID !== "0") {
-      const fetchHistory = async () => {
-        const { data: historyData, error } = await supabase
-          .from('history')
-          .select('form_id, lastcompletion')
-          .eq('user_id', userID)
-          .order('lastcompletion', { ascending: false })
-          .limit(1);
-        if (error) {
-          console.error('Error fetching history:', error.message)
-          return;
-        }
-    
-        if (historyData && historyData.length > 0) {
-          const latest = historyData[0]
-          setLatestEntry(latest)
-        }
-      };
-      fetchHistory()
-    }
-  }, [supabase, userID, userIDLoaded])
-
   return (
     <div>
       {Object.entries(answers).map(
@@ -114,7 +77,7 @@ export default function ResultsPage() {
           </div>
         )
       )}
-      <Button href={`/form?form_id=${latestEntry?.form_id}`}>
+      <Button href={`/form?form_id=${form_id}`}>
         Proovi uuesti
       </Button>
     </div>
