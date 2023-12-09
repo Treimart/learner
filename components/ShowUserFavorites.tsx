@@ -1,70 +1,68 @@
-"use client"
+"use client";
 
-import { Box, Button, Grid } from "@mui/material"
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Box, Button, Grid } from "@mui/material";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface Form {
-  id: number
-  title: string
+  id: number;
+  title: string;
 }
 
 export default function ShowUserFavorites() {
-  const supabase = createClientComponentClient()
-  const router = useRouter()
+  const supabase = createClientComponentClient();
+  const router = useRouter();
 
-  const [userID, setUserID] = useState("")
-  const [userIDLoaded, setUserIDLoaded] = useState(false)
+  const [userID, setUserID] = useState("");
+  const [userIDLoaded, setUserIDLoaded] = useState(false);
 
   useEffect(() => {
     const getUserID = async () => {
-      const { data } = await supabase.auth.getSession()
+      const { data } = await supabase.auth.getSession();
       if (data.session != null) {
-        const id = data.session.user.id
-        setUserID(id)
+        const id = data.session.user.id;
+        setUserID(id);
       } else {
-        setUserID("0")
+        setUserID("0");
       }
-      setUserIDLoaded(true)
-    }
-    getUserID()
-  }, [])
+      setUserIDLoaded(true);
+    };
+    getUserID();
+  }, []);
 
-  const [forms, setForms] = useState<Form[]>([])
+  const [forms, setForms] = useState<Form[]>([]);
 
   const getForms = async () => {
     const { data } = await supabase
       .from("favorite")
       .select("id, user_id, form_id, form(id, title)")
-      .eq("user_id", userID)
+      .eq("user_id", userID);
     if (data) {
       const mappedForm: Form[] = data.map((item: any) => ({
         id: item.form.id,
-        title: item.form.title
-      }))
-      setForms(mappedForm)
+        title: item.form.title,
+      }));
+      setForms(mappedForm);
     }
-  }
+  };
 
   useEffect(() => {
     if (userIDLoaded) {
-      getForms()
+      getForms();
     }
-  }, [userID])
+  }, [userID]);
 
   return (
     <Grid
       container
       sx={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-        gap: "16px",
+        display: "flex",
         justifyContent: "space-between",
-        alignItems: "baseline"
+        alignItems: "baseline",
       }}
     >
-      {forms.map(form => (
+      {forms.map((form) => (
         <Grid
           item
           key={form.id}
@@ -78,14 +76,14 @@ export default function ShowUserFavorites() {
             p: 2,
             m: 1,
             width: 350,
-            height: 70
+            height: 70,
           }}
         >
           <Button
             key={form.id}
             sx={{
               justifyContent: "flex-start",
-              width: "fit-content"
+              width: "fit-content",
             }}
             variant="text"
             color="primary"
@@ -96,5 +94,5 @@ export default function ShowUserFavorites() {
         </Grid>
       ))}
     </Grid>
-  )
+  );
 }
