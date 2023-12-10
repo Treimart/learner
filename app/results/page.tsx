@@ -60,9 +60,14 @@ export default function ResultsPage() {
       <Typography variant="h1">Tulemused</Typography>
       {Object.entries(answers).map(
         ([questionId, { title, answer, correctAnswer, is_evaluable }]) => (
+        <Box
+        sx={{
+          mt: 2,
+          mb: 2,
+        }}>
           <Box key={questionId}>
             <Typography variant="h3">Küsimus: {title}</Typography>
-            <p
+            <Typography
               style={{
                 color: is_evaluable
                   ? answer.toLowerCase() == correctAnswer?.toLowerCase()
@@ -71,10 +76,9 @@ export default function ResultsPage() {
                   : "black"
               }}
             >
-              <Typography>Sinu vastus: {String(answer)}</Typography>
-            </p>
+            Sinu vastus: {String(answer)}
+            </Typography>
             {correctAnswer && <Typography>Õige vastus: {correctAnswer}</Typography>}
-            <br />
           </Box>
         )
       )}
