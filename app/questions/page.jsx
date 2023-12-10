@@ -5,13 +5,12 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  IconButton,
   TextField,
-  Tooltip,
   Typography,
+  Grid,
+  Card,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 export default function CreateQuestion() {
   const supabase = createClientComponentClient();
@@ -20,7 +19,6 @@ export default function CreateQuestion() {
   const [isEvaluable, setIsEvaluable] = useState(true);
   const [photo, setPhoto] = useState("");
   const [formData, setFormData] = useState("");
-  const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [submittedQuestions, setSubmittedQuestions] = useState([]);
   const [rerender, setRerender] = useState(false);
@@ -31,7 +29,6 @@ export default function CreateQuestion() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch form data
       const formResponse = await supabase
         .from("form")
         .select(`title`)
@@ -39,8 +36,6 @@ export default function CreateQuestion() {
       const formData = formResponse.data[0] || {};
       setFormData(formData);
     };
-
-    // Call the fetchData function
     fetchData();
   }, [supabase, storedFormId]);
 
@@ -76,7 +71,7 @@ export default function CreateQuestion() {
         return;
       }
 
-      const { data: newQuestion, error } = await supabase
+      const { data: error } = await supabase
         .from("question")
         .insert([
           {
@@ -92,9 +87,6 @@ export default function CreateQuestion() {
       if (error) {
         console.error("Error saving the question:", error.message);
       } else {
-        console.log("Question saved successfully:", newQuestion);
-        console.log(submittedQuestions);
-        setMessage("Küsimus lisatud!");
         setError(null);
         setQuestion("");
         setAnswer("");
@@ -102,9 +94,6 @@ export default function CreateQuestion() {
         setIsEvaluable(true);
       }
 
-      setTimeout(() => {
-        setMessage(null);
-      }, 3000);
       setRerender((prev) => !prev);
     } catch (error) {
       console.error("An error occurred:", error.message);
@@ -119,16 +108,30 @@ export default function CreateQuestion() {
   }, [storedFormId, rerender]);
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
+    <>
       <Typography variant="h3">{formTitle}</Typography>
-
-      <div className="flex-container">
-        <FormControl>
+      <Grid
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          mt: 2,
+          mb: 10,
+        }}
+      >
+        <FormControl
+          sx={{
+            width: 500,
+            border: 1,
+            borderColor: "primary.main",
+            borderRadius: 1,
+            p: 2,
+          }}
+        >
           <TextField
             sx={{ my: 2 }}
             required
             type="text"
-            size="small"
+            size="medium"
             variant="outlined"
             label="Küsimus"
             id="question"
@@ -139,7 +142,7 @@ export default function CreateQuestion() {
             sx={{ my: 2 }}
             required
             type="text"
-            size="small"
+            size="medium"
             variant="outlined"
             label="Vastus"
             id="answer"
@@ -163,44 +166,56 @@ export default function CreateQuestion() {
             }
             label="On hinnatav"
           />
-          <Tooltip
-            title="Salvesta"
-            placement="right"
-            sx={{
-              width: "fit-content",
-              my: 2,
-            }}
-          >
-            <IconButton onClick={saveNewQuestion}>
-              <AddCircleRoundedIcon fontSize="large" />
-            </IconButton>
-          </Tooltip>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <p>{message}</p>
           <Button
-            href="/"
-            className="py-2 px-4 rounded-md no-underline"
-            variant="contained"
+            onClick={saveNewQuestion}
+            variant="outlined"
             color="primary"
             sx={{
-              width: "fit-content",
+              width: 90,
+              mt: 2,
+            }}
+          >
+            Salvesta
+          </Button>
+          <Button
+            href="/"
+            variant="outlined"
+            color="primary"
+            sx={{
+              width: 90,
+              mt: 2,
+              mb: 5,
             }}
           >
             Lõpeta
           </Button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </FormControl>
-
-        <div className="submitted-questions">
-          <Typography variant="h5">Lisatud küsimused:</Typography>
+        <Card
+          sx={{
+            ml: 5,
+            p: 2,
+            backgroundColor: "#647360",
+            color: "white",
+            minWidth: 500,
+            maxWidth: 500,
+          }}
+        >
           {submittedQuestions.map((submittedQuestion) => (
-            <div key={submittedQuestion.id}>
-              <Typography>
-                K: {submittedQuestion.title}, V: {submittedQuestion.answer}
+            <div>
+              <Typography
+                key={submittedQuestion.id}
+                sx={{
+                  mb: 1,
+                }}
+              >
+                <p style={{ fontWeight: "bold" }}>{submittedQuestion.title}</p>
+                {submittedQuestion.answer}
               </Typography>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
+        </Card>
+      </Grid>
+    </>
   );
 }
