@@ -1,7 +1,14 @@
 "use client";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -48,7 +55,7 @@ export default function CreateForm() {
       }
 
       if (!formTitle.trim() || !formDescription.trim()) {
-        setError("Nimi ja kirjeldus on kohustuslikud");
+        setError("Nimi ja kirjeldus on kohustuslikud!");
         return;
       }
 
@@ -85,10 +92,10 @@ export default function CreateForm() {
 
   return (
     <Box
-      sx={{ 
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start'
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
       }}
     >
       <Typography variant="h1">Loo uus küsimustik</Typography>
@@ -107,7 +114,7 @@ export default function CreateForm() {
           onChange={(e) => setFormTitle(e.target.value)}
           sx={{
             mb: 2,
-            width: '30rem'
+            width: "30rem",
           }}
         />
         <TextField
@@ -123,7 +130,7 @@ export default function CreateForm() {
           }}
           onChange={(e) => setFormDescription(e.target.value)}
           sx={{
-            mb: 2
+            mb: 2,
           }}
         />
         <TextField
@@ -133,7 +140,7 @@ export default function CreateForm() {
           label="Kategooria"
           onChange={(e) => setSelectedCategoryId(e.target.value)}
           sx={{
-            mb: 2
+            mb: 2,
           }}
         >
           {categories.map(({ id, name }) => (
@@ -142,18 +149,19 @@ export default function CreateForm() {
             </MenuItem>
           ))}
         </TextField>
-        {error && <Typography style={{ color: "red" }}>{error}</Typography>}
-        <Button 
+        <Button
           variant="contained"
           color="primary"
           onClick={saveNewForm}
           sx={{
-            mt: 2
+            mt: 2,
+            mb: 2,
           }}
         >
           Loo küsimustik
         </Button>
       </FormControl>
+      {error && <Typography style={{ color: "red" }}>{error}</Typography>}
       <SaveNewCategory />
     </Box>
   );
