@@ -4,6 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Typography, Button, Grid } from "@mui/material";
+import ShowUserForms from "./ShowUserForms";
 
 export default function MainPageCategories() {
   const supabase = createClientComponentClient();
@@ -70,55 +71,58 @@ export default function MainPageCategories() {
   }, [categories, forms]);
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-      }}
-    >
-      {activeCategories.map(({ id: catID, name }) => (
-        <Grid
-          item
-          key={catID}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            border: 1,
-            borderColor: "primary.main",
-            boxShadow: 1,
-            borderRadius: 2,
-            p: 2,
-            m: 2,
-            minWidth: 300,
-            minHeight: 100,
-          }}
-        >
-          <Typography key={catID} variant="h5">
-            {name}
-          </Typography>
+    <>
+      {userID != 0 && <ShowUserForms />}
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+        }}
+      >
+        {activeCategories.map(({ id: catID, name }) => (
+          <Grid
+            item
+            key={catID}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              border: 1,
+              borderColor: "primary.main",
+              boxShadow: 1,
+              borderRadius: 2,
+              p: 2,
+              m: 2,
+              minWidth: 300,
+              minHeight: 100,
+            }}
+          >
+            <Typography key={catID} variant="h5">
+              {name}
+            </Typography>
 
-          {forms
-            .filter((form) => form.category_id == catID)
-            .map(({ id: formID, title }) => (
-              <Button
-                style={{ justifyContent: "flex-start" }}
-                sx={{
-                  width: "fit-content",
-                  my: 1,
-                }}
-                color="primary"
-                variant="contained"
-                onClick={() => router.push("/form?form_id=" + formID)}
-                key={formID}
-              >
-                {title}
-              </Button>
-            ))}
-        </Grid>
-      ))}
-    </Grid>
+            {forms
+              .filter((form) => form.category_id == catID)
+              .map(({ id: formID, title }) => (
+                <Button
+                  style={{ justifyContent: "flex-start" }}
+                  sx={{
+                    width: "fit-content",
+                    my: 1,
+                  }}
+                  color="primary"
+                  variant="contained"
+                  onClick={() => router.push("/form?form_id=" + formID)}
+                  key={formID}
+                >
+                  {title}
+                </Button>
+              ))}
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 }
