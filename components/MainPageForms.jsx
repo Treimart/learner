@@ -75,6 +75,9 @@ export default function MainPageCategories() {
     <>
       {userID != 0 && <ShowUserForms />}
       <SuggestedForms />
+      <Typography variant="h4" sx={{ margin: "25px 0" }}>
+        Kategooriad
+      </Typography>
       <Grid
         container
         spacing={2}
