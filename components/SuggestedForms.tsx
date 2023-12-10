@@ -81,9 +81,7 @@ export default function ShowUserForms() {
       <Grid
         container
         sx={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-          gap: "16px",
+          display: "flex",
           justifyContent: "space-between",
           alignItems: "baseline",
         }}
@@ -100,8 +98,8 @@ export default function ShowUserForms() {
               boxShadow: 1,
               borderRadius: 2,
               p: 2,
-              m: 1,
-              width: 350,
+              marginBottom: 3.5,
+              width: 345,
               height: 125,
             }}
           >
