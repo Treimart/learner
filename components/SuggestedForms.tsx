@@ -3,19 +3,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import {
-  Box,
-  Grid,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Button, Typography } from "@mui/material";
 import { format } from "date-fns";
 
 interface Form {
@@ -83,41 +71,6 @@ export default function ShowUserForms() {
 
   const handleClick = (id: number) => {
     router.push(`../form?form_id=${id}`);
-  };
-
-  const handleStatusChange = async (
-    id: number,
-    event: SelectChangeEvent<number>
-  ) => {
-    const newStatus = event.target.value;
-    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
-    console.log("Changing status for form id", id, "to", newStatus);
-    const { data, error } = await supabase
-      .from("form")
-      .update({ status: newStatus, updated: currentTimestamp })
-      .match({ id: id })
-      .select();
-    if (error) {
-      console.error("Error updating status:", error);
-    } else {
-      console.log("Updated form:", data);
-    }
-    getForms();
-  };
-
-  const deleteForm = async (id: number) => {
-    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
-    const { data, error } = await supabase
-      .from("form")
-      .update({ deleted: currentTimestamp })
-      .match({ id: id })
-      .select();
-    if (error) {
-      console.error("Error updating delete:", error);
-    } else {
-      console.log("Deleted form:", data);
-      getForms();
-    }
   };
 
   return (
