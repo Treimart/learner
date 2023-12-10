@@ -112,7 +112,7 @@ export default function ShowUserForms() {
   };
 
   return (
-    <div>
+    <>
     <Typography variant="h4" sx={{ margin: "25px 0" }}>
       Sinu küsimustikud
     </Typography>
@@ -203,6 +203,6 @@ export default function ShowUserForms() {
         </Grid>
       ))}
     </Grid>
-    </div>
+    </>
   );
 }
