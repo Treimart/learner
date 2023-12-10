@@ -1,8 +1,8 @@
 "use client"
 import { useEffect, useState } from "react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Button } from "@mui/material"
 import { useSearchParams } from "next/navigation"
+import { Box, Button, Typography } from "@mui/material"
 
 type Answer = {
   title: string
@@ -56,11 +56,12 @@ export default function ResultsPage() {
   }, [supabase])
 
   return (
-    <div>
+    <Box>
+      <Typography variant="h1">Tulemused</Typography>
       {Object.entries(answers).map(
         ([questionId, { title, answer, correctAnswer, is_evaluable }]) => (
-          <div key={questionId}>
-            <h2>Küsimus: {title}</h2>
+          <Box key={questionId}>
+            <Typography variant="h3">Küsimus: {title}</Typography>
             <p
               style={{
                 color: is_evaluable
@@ -70,16 +71,32 @@ export default function ResultsPage() {
                   : "black"
               }}
             >
-              Sinu vastus: {String(answer)}
+              <Typography>Sinu vastus: {String(answer)}</Typography>
             </p>
-            {correctAnswer && <p>Õige vastus: {correctAnswer}</p>}
+            {correctAnswer && <Typography>Õige vastus: {correctAnswer}</Typography>}
             <br />
-          </div>
+          </Box>
         )
       )}
-      <Button href={`/form?form_id=${form_id}`}>
+      <Button 
+      href={`/form?form_id=${form_id}`}
+      variant="contained"
+      color="primary"
+      sx={{
+        mt: 2
+      }}>
         Proovi uuesti
       </Button>
-    </div>
+      <Button
+        href="/"
+        variant="contained"
+        color="primary"
+        sx={{
+          mt: 2
+        }}
+      >
+        Mine avalehele
+      </Button>
+    </Box>
   )
 }
