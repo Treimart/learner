@@ -94,9 +94,6 @@ export default function Profile() {
             Sinu lemmikud
           </Typography>
           <ShowUserFavorites />
-          <Typography variant="h4" sx={{ margin: "25px 0" }}>
-            Sinu küsimustikud
-          </Typography>
           <ShowUserForms />
         </Grid>
       </Container>
