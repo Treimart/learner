@@ -12,7 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import SaveNewCategory from "@/components/SaveNewCategory"
+import SaveNewCategory from "@/components/SaveNewCategory";
 
 export default function CreateForm() {
   const supabase = createClientComponentClient();
@@ -91,78 +91,80 @@ export default function CreateForm() {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-      }}
-    >
-      <Typography variant="h1">Loo uus küsimustik</Typography>
-      <FormControl>
-        <TextField
-          required
-          type="text"
-          size="small"
-          variant="outlined"
-          label="Nimi"
-          id="formName"
-          value={formTitle}
-          inputProps={{
-            maxLength: 30,
-          }}
-          onChange={(e) => setFormTitle(e.target.value)}
-          sx={{
-            mb: 2,
-            width: "30rem",
-          }}
-        />
-        <TextField
-          required
-          type="text"
-          size="small"
-          variant="outlined"
-          label="Kirjeldus"
-          id="formDescription"
-          value={formDescription}
-          inputProps={{
-            maxLength: 75,
-          }}
-          onChange={(e) => setFormDescription(e.target.value)}
-          sx={{
-            mb: 2,
-          }}
-        />
-        <TextField
-          select
-          id="categorySelect"
-          value={categories.length ? selectedCategoryId : ""}
-          label="Kategooria"
-          onChange={(e) => setSelectedCategoryId(e.target.value)}
-          sx={{
-            mb: 2,
-          }}
-        >
-          {categories.map(({ id, name }) => (
-            <MenuItem key={id} value={JSON.stringify(id)}>
-              {name}
-            </MenuItem>
-          ))}
-        </TextField>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={saveNewForm}
-          sx={{
-            mt: 2,
-            mb: 2,
-          }}
-        >
-          Loo küsimustik
-        </Button>
-      </FormControl>
-      {error && <Typography style={{ color: "red" }}>{error}</Typography>}
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+        }}
+      >
+        <Typography variant="h1">Loo uus küsimustik</Typography>
+        <FormControl>
+          <TextField
+            required
+            type="text"
+            size="small"
+            variant="outlined"
+            label="Nimi"
+            id="formName"
+            value={formTitle}
+            inputProps={{
+              maxLength: 30,
+            }}
+            onChange={(e) => setFormTitle(e.target.value)}
+            sx={{
+              mb: 2,
+              width: "30rem",
+            }}
+          />
+          <TextField
+            required
+            type="text"
+            size="small"
+            variant="outlined"
+            label="Kirjeldus"
+            id="formDescription"
+            value={formDescription}
+            inputProps={{
+              maxLength: 75,
+            }}
+            onChange={(e) => setFormDescription(e.target.value)}
+            sx={{
+              mb: 2,
+            }}
+          />
+          <TextField
+            select
+            id="categorySelect"
+            value={categories.length ? selectedCategoryId : ""}
+            label="Kategooria"
+            onChange={(e) => setSelectedCategoryId(e.target.value)}
+            sx={{
+              mb: 2,
+            }}
+          >
+            {categories.map(({ id, name }) => (
+              <MenuItem key={id} value={JSON.stringify(id)}>
+                {name}
+              </MenuItem>
+            ))}
+          </TextField>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={saveNewForm}
+            sx={{
+              mt: 2,
+              mb: 2,
+            }}
+          >
+            Loo küsimustik
+          </Button>
+        </FormControl>
+        {error && <Typography style={{ color: "red" }}>{error}</Typography>}
+      </Box>
       <SaveNewCategory />
-    </Box>
+    </>
   );
 }
