@@ -1,13 +1,10 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-
 import AppBar from "@mui/material/AppBar"
 import { Toolbar, Button, Box, TextField } from "@mui/material"
-import SearchIcon from "@mui/icons-material/Search"
 import PersonIcon from "@mui/icons-material/Person"
 import AddIcon from "@mui/icons-material/Add"
 import HomeIcon from "@mui/icons-material/Home"
-
 
 export default async function Navbar() {
   const supabase = createServerComponentClient({ cookies })
@@ -38,16 +35,6 @@ export default async function Navbar() {
         ) : (
           null
         )}
-
-        <Box sx={{ marginRight: 1 }} />
-        <TextField
-          variant="outlined"
-          placeholder="Search"
-          InputProps={{
-            startAdornment: <SearchIcon />,
-            style: { color: "white" }
-          }}
-        />
 
         <Box sx={{ marginRight: 1 }} />
         {user ? (
