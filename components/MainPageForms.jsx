@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Typography, Button, Grid } from "@mui/material";
 import ShowUserForms from "./ShowUserForms";
+import SuggestedForms from "./SuggestedForms";
 
 export default function MainPageCategories() {
   const supabase = createClientComponentClient();
@@ -73,6 +74,7 @@ export default function MainPageCategories() {
   return (
     <>
       {userID != 0 && <ShowUserForms />}
+      <SuggestedForms />
       <Grid
         container
         spacing={2}
