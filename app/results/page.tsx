@@ -66,7 +66,7 @@ export default function ResultsPage() {
           mb: 2,
         }}>
           <Box key={questionId}>
-            <Typography variant="h3">Küsimus: {title}</Typography>
+            <Typography variant="h4">{title}</Typography>
             <Typography
               style={{
                 color: is_evaluable
