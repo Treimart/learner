@@ -25,8 +25,11 @@ export default function SaveNewCategory() {
 
 
   return (
-    <Box>
-      <Typography variant='h2'>Lisa uus kategooria</Typography>
+    <Box
+    sx={{
+      mt: 5
+    }}>
+      <Typography variant='h4'>Lisa uus kategooria</Typography>
       <FormControl>
         <TextField 
           type="text"
