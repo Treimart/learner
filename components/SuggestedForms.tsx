@@ -45,7 +45,8 @@ export default function ShowUserForms() {
         .from("form")
         .select()
         .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
-        .order("created", { ascending: false }));
+        .order("created", { ascending: false })
+        .limit(3));
     } else {
       ({ data } = await supabase
         .from("form")
