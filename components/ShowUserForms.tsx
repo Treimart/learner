@@ -113,96 +113,94 @@ export default function ShowUserForms() {
 
   return (
     <>
-    <Typography variant="h4" sx={{ margin: "25px 0" }}>
-      Sinu küsimustikud
-    </Typography>
-    <Grid
-      container
-      sx={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-        gap: "16px",
-        justifyContent: "space-between",
-        alignItems: "baseline",
-      }}
-    >
-      {forms.map((form) => (
-        <Grid
-          item
-          key={form.id}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            border: 1,
-            borderColor: "primary.main",
-            boxShadow: 1,
-            borderRadius: 2,
-            p: 2,
-            m: 1,
-            width: 350,
-            height: 200,
-          }}
-        >
-          <Box
+      <Typography variant="h4" sx={{ margin: "25px 0" }}>
+        Sinu küsimustikud
+      </Typography>
+      <Grid
+        container
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "baseline",
+        }}
+      >
+        {forms.map((form) => (
+          <Grid
+            item
+            key={form.id}
             sx={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: "column",
+              border: 1,
+              borderColor: "primary.main",
+              boxShadow: 1,
+              borderRadius: 2,
+              p: 2,
+              marginBottom: 3.5,
+              width: 345,
+              height: 200,
             }}
           >
-            <Button
-              key={form.id}
+            <Box
               sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Button
+                key={form.id}
+                sx={{
+                  justifyContent: "flex-start",
+                  width: "fit-content",
+                  mr: 2,
+                }}
+                variant="outlined"
+                color="primary"
+                onClick={() => handleClick(form.id)}
+              >
+                {form.title}
+              </Button>
+              <Tooltip title="Kustuta" placement="right" arrow>
+                <DeleteOutlineIcon
+                  onClick={() => deleteForm(form.id)}
+                  sx={{
+                    color: "red",
+                    cursor: "pointer",
+                    height: "1.25em",
+                  }}
+                />
+              </Tooltip>
+            </Box>
+            <Typography sx={{ minHeight: "60px", margin: "0.65em 0" }}>
+              {form.description}
+            </Typography>
+            <FormControl
+              sx={{
+                mt: 1,
+                mb: 2,
+                minWidth: 200,
                 justifyContent: "flex-start",
                 width: "fit-content",
-                mr: 2,
               }}
-              variant="outlined"
-              color="primary"
-              onClick={() => handleClick(form.id)}
+              size="small"
             >
-              {form.title}
-            </Button>
-            <Tooltip title="Kustuta" placement="right" arrow>
-              <DeleteOutlineIcon
-                onClick={() => deleteForm(form.id)}
-                sx={{
-                  color: "red",
-                  cursor: "pointer",
-                  height: "1.25em",
-                }}
-              />
-            </Tooltip>
-          </Box>
-          <Typography sx={{ minHeight: "60px", margin: "0.65em 0" }}>
-            {form.description}
-          </Typography>
-          <FormControl
-            sx={{
-              mt: 1,
-              mb: 2,
-              minWidth: 200,
-              justifyContent: "flex-start",
-              width: "fit-content",
-            }}
-            size="small"
-          >
-            <InputLabel id="formStatus">Olek</InputLabel>
-            <Select
-              labelId="formStatusLabel"
-              id="formStatus"
-              value={form.status}
-              label="Olek"
-              onChange={(event) => handleStatusChange(form.id, event)}
-            >
-              <MenuItem value={1}>Privaatne</MenuItem>
-              <MenuItem value={2}>Kontodega kasutajad</MenuItem>
-              <MenuItem value={3}>Avalik</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-      ))}
-    </Grid>
+              <InputLabel id="formStatus">Olek</InputLabel>
+              <Select
+                labelId="formStatusLabel"
+                id="formStatus"
+                value={form.status}
+                label="Olek"
+                onChange={(event) => handleStatusChange(form.id, event)}
+              >
+                <MenuItem value={1}>Privaatne</MenuItem>
+                <MenuItem value={2}>Kontodega kasutajad</MenuItem>
+                <MenuItem value={3}>Avalik</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 }
