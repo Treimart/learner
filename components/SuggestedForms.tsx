@@ -76,7 +76,7 @@ export default function ShowUserForms() {
   return (
     <>
       <Typography variant="h4" sx={{ margin: "25px 0" }}>
-        Soovitatud küsimustikud
+        Sinule soovitatud
       </Typography>
       <Grid
         container
