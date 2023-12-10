@@ -118,7 +118,7 @@ export default function MainPageCategories() {
                     my: 1,
                   }}
                   color="primary"
-                  variant="contained"
+                  variant="outlined"
                   onClick={() => router.push("/form?form_id=" + formID)}
                   key={formID}
                 >
