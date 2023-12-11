@@ -40,7 +40,6 @@ export default function SaveNewCategory({userID}) {
   }, [userID, deleteCategory])
 
   const saveNewCategory = async () => {
-    console.log(categories)
     const { data, error } = await supabase
       .from("category")
       .insert({name: newCategory, user_id: userID})
