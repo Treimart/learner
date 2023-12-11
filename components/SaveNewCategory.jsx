@@ -1,7 +1,7 @@
 "use client"
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { Box, Button, FormControl, TextField, Tooltip, Typography } from "@mui/material"
+import { Box, Button, Card, FormControl, Grid, TextField, Tooltip, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 
@@ -25,12 +25,12 @@ export default function SaveNewCategory({userID}) {
   }
 
 	useEffect(() => {
-    if (userID.userID != "") {
+    if (userID != "") {
       const getCategories = async () => {
         const { data } = await supabase
           .from('category')
           .select()
-          .eq('user_id', userID.userID)
+          .eq('user_id', userID)
         if (data) {
           setCategories(data)
         }
@@ -40,65 +40,109 @@ export default function SaveNewCategory({userID}) {
   }, [userID, deleteCategory])
 
   const saveNewCategory = async () => {
+    console.log(categories)
     const { data, error } = await supabase
       .from("category")
-      .insert({name: newCategory, user_id: userID.userID})
+      .insert({name: newCategory, user_id: userID})
       .select()
     if (error) {
       console.error("Error saving the category:", error.message)
     } else {
       console.log("Category saved successfully:", data[0].name)
       setNewCategory("")
-      //window.location.reload()
     }
   }
 
   return (
-    <Box>
-      <Typography variant='h3'>Sinu lisatud kategooriad</Typography>
-      {categories.map(({id: catID, name}) => (
-        <Box key={catID}>
-          <Typography>{name}</Typography>
-          <Tooltip
-            title="Kustuta"
-            placement="right"
-            arrow
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        mt: 4
+      }}
+    >
+      <Grid
+        item
+        sx={{
+          minWidth: '45%',
+          p: 2,
+          mb: 2,
+          border: 1,
+          borderColor: "primary.main",
+          borderRadius: 2
+        }}
+      >
+        <Typography variant='h3'>Lisa uus kategooria</Typography>
+        <FormControl>
+          <TextField 
+            type="text"
+            size="small"
+            variant="outlined"
+            label="Kategooria"
+            id="categoryName"
+            value={newCategory}
+            onChange={(e) => setNewCategory(e.target.value)}
+            sx={{
+              my: 2
+            }}
+          />
+          <Button 
+            variant="contained"
+            onClick={saveNewCategory}
+            style={{justifyContent: "flex-start"}}
+            sx={{
+              width: 'fit-content'
+            }}
           >
-            <DeleteOutlineIcon 
-              onClick={() => deleteCategory(catID)}
+            Salvesta
+          </Button>
+        </FormControl>
+      </Grid>
+      <Grid
+        item
+        sx={{
+          minWidth: '45%',
+          p: 2,
+          backgroundColor: "primary.main",
+          color: "white",
+          borderRadius: 2
+        }}
+      >
+        <Typography variant='h3' sx={{mb: 2}}>Sinu lisatud kategooriad</Typography>
+        {categories.length > 0 ? (
+          categories.map(({id: catID, name}) => (
+            <Box 
+              key={catID}
               sx={{
-                color: "red",
-                cursor: "pointer"
+                display: 'flex',
+                alignItems: 'center',
+                my: 2
               }}
-            />
-          </Tooltip>
-        </Box>
-      ))}
-      <Typography variant='h3'>Lisa uus kategooria</Typography>
-      <FormControl>
-        <TextField 
-          type="text"
-          size="small"
-          variant="outlined"
-          label="Kategooria"
-          id="categoryName"
-          value={newCategory}
-          onChange={(e) => setNewCategory(e.target.value)}
-          sx={{
-            my: 2
-          }}
-        />
-        <Button 
-          variant="contained"
-          onClick={saveNewCategory}
-          style={{justifyContent: "flex-start"}}
-          sx={{
-            width: 'fit-content'
-          }}
-        >
-          Salvesta
-        </Button>
-      </FormControl>
-    </Box>
+            >
+              <Tooltip
+                title="Kustuta"
+                placement="right"
+              >
+                <DeleteOutlineIcon 
+                  fontSize="small"
+                  onClick={() => deleteCategory(catID)}
+                  sx={{
+                    color: "red",
+                    cursor: "pointer"
+                  }}
+                />
+              </Tooltip>
+              <Typography
+                sx={{ml: 2}}
+              >{name}</Typography>
+            </Box>
+          ))) : <Typography>Sa pole veel kategooriaid lisanud</Typography>
+        }
+      </Grid>
+    </Grid>
   )
 }
