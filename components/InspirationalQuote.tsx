@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material"
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 
@@ -14,13 +15,21 @@ export default async function Index() {
   } = await supabase.auth.getUser()
 
   return (
-    <div className="flex flex-col items-center">
+    <>
+      <Typography variant="h1">Learner tervitab!</Typography>
       {user ? null : (
-        <div className="flex flex-col items-center">
-          <pre>{setup}</pre>
-          <pre>{punchline}</pre>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            mb: 3
+          }}
+        >
+          <Typography variant="h4">{setup}</Typography>
+          <Typography variant="h4">{punchline}</Typography>
+        </Box>
       )}
-    </div>
+    </>
   )
 }

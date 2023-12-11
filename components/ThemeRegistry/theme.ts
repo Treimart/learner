@@ -17,9 +17,36 @@ const theme = createTheme({
       main: "#BF6836",
       light: "#F4AD57",
     },
+    background: {
+      default: "#8658F8"
+    }
   },
   typography: {
     fontFamily: roboto.style.fontFamily,
+    h1: {
+      fontSize: 57,
+      fontWeight: 400,
+      lineHeight: 1.25,
+      marginBottom: '30px'
+    },
+    h2: {
+      fontSize: 44,
+      fontWeight: 300,
+      lineHeight: 1.25,
+      marginBottom: '20px'
+    },
+    h3: {
+      fontSize: 25,
+      fontWeight: 400,
+      lineHeight: 1.25,
+      marginBottom: '15px'
+    },
+    h4: {
+      fontSize: 20,
+      fontWeight: 400,
+      lineHeight: 1.25,
+      marginBottom: '10px'
+    },
   },
   components: {
     MuiAlert: {
