@@ -9,6 +9,7 @@ import {
   Typography,
   Grid,
   Card,
+  Box,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
@@ -71,7 +72,7 @@ export default function CreateQuestion() {
         return;
       }
 
-      const { data: error } = await supabase
+      const { error } = await supabase
         .from("question")
         .insert([
           {
@@ -195,24 +196,28 @@ export default function CreateQuestion() {
           sx={{
             ml: 5,
             p: 2,
-            backgroundColor: "#647360",
+            backgroundColor: "primary.main",
             color: "white",
             minWidth: 500,
             maxWidth: 500,
           }}
         >
           {submittedQuestions.map((submittedQuestion) => (
-            <div>
+            <Box key={submittedQuestion.id}>
               <Typography
                 key={submittedQuestion.id}
                 sx={{
                   mb: 1,
                 }}
+                variant="body2"
               >
-                <p style={{ fontWeight: "bold" }}>{submittedQuestion.title}</p>
+                <Typography component="span" fontWeight="bold">
+                  {submittedQuestion.title}
+                </Typography>{" "}
+                <br />
                 {submittedQuestion.answer}
               </Typography>
-            </div>
+            </Box>
           ))}
         </Card>
       </Grid>
