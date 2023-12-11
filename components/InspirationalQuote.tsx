@@ -18,11 +18,16 @@ export default async function Index() {
     <>
       {user ? null : (
         <Box
+          bgcolor="#eddbc5"
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            mb: 3
+            mb: 3,
+            py: 2,
+            pt: 3,
+            ml: '-200%',
+            width: '500%'
           }}
         >
           <Typography variant="h4">{setup}</Typography>
