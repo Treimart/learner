@@ -61,11 +61,10 @@ export default function ResultsPage() {
       {Object.entries(answers).map(
         ([questionId, { title, answer, correctAnswer, is_evaluable }]) => (
         <Box
+        key={questionId}
         sx={{
-          mt: 2,
-          mb: 2,
+          my: 2
         }}>
-          <Box key={questionId}>
             <Typography variant="h4">{title}</Typography>
             <Typography
               style={{
@@ -80,8 +79,7 @@ export default function ResultsPage() {
             </Typography>
             {correctAnswer && <Typography>Õige vastus: {correctAnswer}</Typography>}
           </Box>
-        )
-      )}
+        ))}
       <Button 
       href={`/form?form_id=${form_id}`}
       variant="contained"
