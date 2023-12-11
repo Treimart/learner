@@ -4,7 +4,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Box, Grid, Button, Typography } from "@mui/material";
-import { format } from "date-fns";
 
 interface Form {
   id: number;
@@ -38,7 +37,6 @@ export default function ShowUserForms() {
   const [forms, setForms] = useState<Form[]>([]);
 
   const getForms = async () => {
-    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
     let data;
     if (userID === "0") {
       ({ data } = await supabase
@@ -76,7 +74,7 @@ export default function ShowUserForms() {
 
   return (
     <>
-      <Typography variant="h4" sx={{ margin: "25px 0" }}>
+      <Typography variant="h2" sx={{ margin: "25px 0" }}>
         Sinule soovitatud
       </Typography>
       <Grid
@@ -125,7 +123,7 @@ export default function ShowUserForms() {
                 {form.title}
               </Button>
             </Box>
-            <Typography sx={{ minHeight: "60px", margin: "0.65em 0" }}>
+            <Typography variant="subtitle1">
               {form.description}
             </Typography>
           </Grid>

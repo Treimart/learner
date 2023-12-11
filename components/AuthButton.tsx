@@ -12,22 +12,18 @@ export default function AuthButton({userData}: { userData: { id: string; email: 
   }
 
   return userData?.email != undefined ? (
-    <Box>
-      <form action={signOut}>
-        <Button 
-          className="py-2 px-4 rounded-md no-underline"
-          variant="contained"
-          color="primary"
-          type="submit"
-        >
-          Logi välja
-        </Button>
-      </form>
-    </Box>
+    <form action={signOut}>
+      <Button 
+        variant="contained"
+        color="primary"
+        type="submit"
+      >
+        Logi välja
+      </Button>
+    </form>
   ) : (
     <Button
       href="/login"
-      className="py-2 px-4 rounded-md no-underline"
       variant="contained"
       color="primary"
     >

@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Button, Grid } from "@mui/material"
+import { Box, Button, Grid, Typography } from "@mui/material"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -55,47 +55,56 @@ export default function ShowUserFavorites() {
   }, [userID])
 
   return (
-    <Grid
-      container
+    <Grid item xs={12}
       sx={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
-        gap: "16px",
-        justifyContent: "space-between",
-        alignItems: "baseline"
+        display: "flex",
+        flexDirection: "column",
+        width: '100%'
       }}
     >
-      {forms.map(form => (
-        <Grid
-          item
-          key={form.id}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            border: 1,
-            borderColor: "primary.main",
-            boxShadow: 1,
-            borderRadius: 2,
-            p: 2,
-            m: 1,
-            width: 350,
-            height: 70
-          }}
-        >
-          <Button
+      <Typography variant="h2">Sinu lemmikud</Typography>
+      <Grid
+        container
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))",
+          gap: "16px",
+          justifyContent: "space-between",
+          alignItems: "baseline"
+        }}
+      >
+        {forms.length > 0 ? (forms.map(form => (
+          <Grid
+            item
             key={form.id}
             sx={{
-              justifyContent: "flex-start",
-              width: "fit-content"
+              display: "flex",
+              flexDirection: "column",
+              border: 1,
+              borderColor: "primary.main",
+              boxShadow: 1,
+              borderRadius: 2,
+              p: 2,
+              m: 1,
+              width: 350,
+              height: 70
             }}
-            variant="text"
-            color="primary"
-            onClick={() => router.push("/form?form_id=" + form.id)}
           >
-            {form.title}
-          </Button>
-        </Grid>
-      ))}
+            <Button
+              key={form.id}
+              sx={{
+                justifyContent: "flex-start",
+                width: "fit-content"
+              }}
+              variant="text"
+              color="primary"
+              onClick={() => router.push("/form?form_id=" + form.id)}
+            >
+              {form.title}
+            </Button>
+          </Grid>
+        ))) : (<Typography variant="subtitle1">Sa pole veel ühtegi küsimustikku lemmikuks märkinud</Typography>)}
+      </Grid>
     </Grid>
   )
 }

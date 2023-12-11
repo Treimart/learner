@@ -33,7 +33,8 @@ const theme = createTheme({
       fontSize: 44,
       fontWeight: 300,
       lineHeight: 1.25,
-      marginBottom: '20px'
+      marginBottom: '20px',
+      marginTop: '15px'
     },
     h3: {
       fontSize: 25,
@@ -45,6 +46,12 @@ const theme = createTheme({
       fontSize: 20,
       fontWeight: 400,
       lineHeight: 1.25,
+      marginBottom: '10px'
+    },
+    subtitle1: {
+      fontWeight: 400,
+      lineHeight: 1.25,
+      marginTop: '10px',
       marginBottom: '10px'
     },
   },

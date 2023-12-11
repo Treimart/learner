@@ -112,19 +112,24 @@ export default function ShowUserForms({ limit }: any) {
   };
 
   return (
-    <>
-      <Typography variant="h4" sx={{ margin: "25px 0" }}>
-        Sinu küsimustikud
-      </Typography>
+    <Grid item xs={12}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: '100%'
+      }}
+    >
+      <Typography variant="h2">Sinu küsimustikud</Typography>
       <Grid
         container
         sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "baseline",
+          mb: 4
         }}
       >
-        {forms.map((form) => (
+        {forms.length > 0 ? (forms.map((form) => (
           <Grid
             item
             key={form.id}
@@ -136,9 +141,7 @@ export default function ShowUserForms({ limit }: any) {
               boxShadow: 1,
               borderRadius: 2,
               p: 2,
-              marginBottom: 3.5,
               width: 345,
-              height: 200,
             }}
           >
             <Box
@@ -172,13 +175,12 @@ export default function ShowUserForms({ limit }: any) {
                 />
               </Tooltip>
             </Box>
-            <Typography sx={{ minHeight: "60px", margin: "0.65em 0" }}>
+            <Typography variant="subtitle1">
               {form.description}
             </Typography>
             <FormControl
               sx={{
                 mt: 1,
-                mb: 2,
                 minWidth: 200,
                 justifyContent: "flex-start",
                 width: "fit-content",
@@ -199,8 +201,8 @@ export default function ShowUserForms({ limit }: any) {
               </Select>
             </FormControl>
           </Grid>
-        ))}
+        ))) : (<Typography variant="subtitle1">Sa pole veel ühtegi küsimustikku loonud</Typography>)}
       </Grid>
-    </>
+    </Grid>
   );
 }

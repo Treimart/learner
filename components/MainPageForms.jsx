@@ -82,7 +82,7 @@ export default function MainPageCategories() {
     <>
       {userID != 0 && <ShowUserForms limit={3}/>}
       {userIDLoaded && <SuggestedForms />}
-      {userIDLoaded && <Typography variant="h4" sx={{ margin: "25px 0" }}>
+      {userIDLoaded && <Typography variant="h2" sx={{ margin: "25px 0" }}>
         Sirvi kategooriate kaupa
       </Typography>}
       <Grid
@@ -111,7 +111,7 @@ export default function MainPageCategories() {
               minHeight: 100,
             }}
           >
-            <Typography key={catID} variant="h5">
+            <Typography key={catID} variant="h3">
               {name}
             </Typography>
 

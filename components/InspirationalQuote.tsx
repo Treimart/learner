@@ -16,7 +16,6 @@ export default async function Index() {
 
   return (
     <>
-      <Typography variant="h1">Learner tervitab!</Typography>
       {user ? null : (
         <Box
           sx={{

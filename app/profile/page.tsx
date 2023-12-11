@@ -41,40 +41,25 @@ export default function Profile() {
     getUserData();
   }, []);
 
-  const renderUserInfoAndActions = (userInfoArray: any[]) => {
-    const userInfoItems = userInfoArray.map((info, index) => (
-      <Box key={index} sx={{ margin: "3vh 0 3vh 0" }}>
-        {info}
-      </Box>
-    ));
-
-    return <div>{userInfoItems}</div>;
-  };
-
-  const renderUserHistoryAndFavorites = (userHistoryArray: any[]) => {
-    const userHistoryItems = userHistoryArray.map((info, index) => (
-      <Box key={index} sx={{ margin: "3vh 0 3vh 0" }}>
-        {info}
-      </Box>
-    ));
-
-    return <div>{userHistoryItems}</div>;
-  };
-
-  let userInfoArray: string[] = [" "];
-  if (userData && userData.email) {
-    userInfoArray = [`Email: ${userData.email}`];
-  }
-  const userHistoryArray = [<ShowUserHistory />];
 
   if (userDataLoaded) {
     return userData.email != undefined ? (
-      <Container sx={{ width: "100%" }}>
+      <Box sx={{ width: "100%" }}>
+        <Box>
+        <Typography variant="h1">Profiili andmed</Typography>
+        {userData.email ? (<Typography variant="h3">Email: {userData.email}</Typography>) : null}</Box>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <Typography variant="h4">PROFIILI ANDMED</Typography>
-            {renderUserInfoAndActions(userInfoArray)}
-            <Box sx={{ margin: "3vh 0 3vh 0" }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-start',
+                justifyContent: 'space-evenly',
+                height: '100%',
+                minHeight: '100px'
+              }}
+            >
               <Button
                 onClick={handleOpen}
                 variant="contained"
@@ -112,16 +97,11 @@ export default function Profile() {
               <AuthButton userData={userData} />
             </Box>
           </Grid>
-          <Grid item xs={6}>
-            {renderUserHistoryAndFavorites(userHistoryArray)}
-          </Grid>
-          <Typography variant="h4" sx={{ margin: "25px 0" }}>
-            Sinu lemmikud
-          </Typography>
+          <ShowUserHistory />
           <ShowUserFavorites />
           <ShowUserForms limit={100}/>
         </Grid>
-      </Container>
+      </Box>
     ) : (
       <Container
         sx={{
