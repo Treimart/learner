@@ -85,7 +85,8 @@ export default function ResultsPage() {
       variant="contained"
       color="primary"
       sx={{
-        mt: 2
+        mt: 2,
+        mr: 2
       }}>
         Proovi uuesti
       </Button>
