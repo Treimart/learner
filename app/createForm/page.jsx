@@ -164,7 +164,7 @@ export default function CreateForm() {
         </FormControl>
         {error && <Typography style={{ color: "red" }}>{error}</Typography>}
       </Box>
-      <SaveNewCategory />
+      <SaveNewCategory userID={userID}/>
     </>
   );
 }
