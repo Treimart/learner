@@ -2,7 +2,6 @@
 
 import { Box, Button, Grid } from "@mui/material"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { format } from "date-fns"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
@@ -38,7 +37,7 @@ export default function ShowUserFavorites() {
     const { data } = await supabase
       .from("favorite")
       .select('*, form!inner(*)')
-      .is('form.deleted', 'null')
+      .is('form.deleted', null)
       .eq('user_id', userID)
     if (data) {
       const mappedForm: Form[] = data.map((item: any) => ({

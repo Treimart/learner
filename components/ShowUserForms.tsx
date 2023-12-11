@@ -51,12 +51,11 @@ export default function ShowUserForms({limit}: any) {
   const [forms, setForms] = useState<Form[]>([]);
 
   const getForms = async () => {
-    const currentTimestamp = format(new Date(), "yyyy-MM-dd HH:mm:ss");
     const { data } = await supabase
       .from("form")
       .select()
       .eq("user_id", userID)
-      .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
+      .is('deleted', null)
       .order("id", { ascending: true })
       .limit(limit)
     if (data) {

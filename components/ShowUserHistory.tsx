@@ -36,7 +36,8 @@ export default function ShowUserHistory() {
   const getHistroy = async () => {
     const { data } = await supabase
       .from("history")
-      .select("id, user_id, form_id, lastcompletion, form(id, title)")
+      .select('*, form!inner(*)')
+      .is('form.deleted', null)
       .eq("user_id", userID)
       .order("lastcompletion", { ascending: false });
     if (data) {
