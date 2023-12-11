@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -57,14 +57,14 @@ export default function ShowUserHistory() {
   }, [userID]);
 
   return (
-    <Box
+    <Grid item xs={6}
       sx={{
         display: "flex",
         flexDirection: "column",
       }}
     >
-      <Typography variant="h4">Sinu ajalugu</Typography>
-      {history.map((form) => (
+      <Typography variant="h2">Sinu ajalugu</Typography>
+      {history.length > 0 ? (history.map((form) => (
         <Button
           key={form.id}
           sx={{
@@ -77,7 +77,7 @@ export default function ShowUserHistory() {
         >
           {form.title}
         </Button>
-      ))}
-    </Box>
+      ))) : (<Typography variant="subtitle1">Sa pole veel ühtegi küsimustikku täitnud</Typography>)}
+    </Grid>
   );
 }
