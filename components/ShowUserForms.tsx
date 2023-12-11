@@ -25,7 +25,7 @@ interface Form {
   status: number;
 }
 
-export default function ShowUserForms() {
+export default function ShowUserForms({limit}: any) {
   const supabase = createClientComponentClient();
   const router = useRouter();
 
@@ -57,7 +57,8 @@ export default function ShowUserForms() {
       .select()
       .eq("user_id", userID)
       .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
-      .order("id", { ascending: true });
+      .order("id", { ascending: true })
+      .limit(limit)
     if (data) {
       setForms(data);
     }
