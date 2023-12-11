@@ -94,7 +94,7 @@ export default function Profile() {
             Sinu lemmikud
           </Typography>
           <ShowUserFavorites />
-          <ShowUserForms />
+          <ShowUserForms limit={100}/>
         </Grid>
       </Container>
     ) : (
