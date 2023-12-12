@@ -1,12 +1,5 @@
-import { Roboto } from "next/font/google";
 import { createTheme } from "@mui/material/styles";
 import Zoom from "@mui/material/Zoom";
-
-const roboto = Roboto({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
 
 const theme = createTheme({
   palette: {
@@ -23,37 +16,37 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: ["roboto", "sans-serif"].join(','),
+    fontFamily: ["roboto", "sans-serif"].join(","),
     h1: {
       fontSize: 57,
       fontWeight: 400,
       lineHeight: 1.25,
-      marginBottom: '30px'
+      marginBottom: "30px"
     },
     h2: {
       fontSize: 44,
       fontWeight: 300,
       lineHeight: 1.25,
-      marginBottom: '20px',
-      marginTop: '15px'
+      marginBottom: "20px",
+      marginTop: "15px"
     },
     h3: {
       fontSize: 25,
       fontWeight: 400,
       lineHeight: 1.25,
-      marginBottom: '15px'
+      marginBottom: "15px"
     },
     h4: {
       fontSize: 20,
       fontWeight: 400,
       lineHeight: 1.25,
-      marginBottom: '10px'
+      marginBottom: "10px"
     },
     subtitle1: {
       fontWeight: 400,
       lineHeight: 1.25,
-      marginTop: '10px',
-      marginBottom: '10px'
+      marginTop: "10px",
+      marginBottom: "10px"
     },
   },
   components: {
