@@ -23,7 +23,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: roboto.style.fontFamily,
+    fontFamily: ["roboto", "sans-serif"].join(','),
     h1: {
       fontSize: 57,
       fontWeight: 400,
