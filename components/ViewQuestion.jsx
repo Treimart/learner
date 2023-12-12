@@ -256,7 +256,7 @@ export default function ViewQuestion() {
         }}
       >
         <Typography variant="h1">{formTitle}</Typography>
-        {userID != 0 && (
+        {(userIDLoaded && userID != 0) && (
           <IconButton onClick={saveNewFavorite}>
             <StarIcon
               fontSize="large"
