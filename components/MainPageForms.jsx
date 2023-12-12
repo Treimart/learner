@@ -81,10 +81,10 @@ export default function MainPageCategories() {
   return (
     <>
       {userID != 0 && <ShowUserForms limit={3}/>}
-      <SuggestedForms />
-      <Typography variant="h4" sx={{ margin: "25px 0" }}>
+      {userIDLoaded && <SuggestedForms />}
+      {userIDLoaded && <Typography variant="h4" sx={{ margin: "25px 0" }}>
         Sirvi kategooriate kaupa
-      </Typography>
+      </Typography>}
       <Grid
         container
         spacing={2}
