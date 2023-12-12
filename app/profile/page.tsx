@@ -79,8 +79,8 @@ export default function Profile() {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    minWidth: 300,
-                    minHeight: 322,
+                    minWidth: 360,
+                    minHeight: 325,
                     bgcolor: 'background.paper',
                     border: 1,
                     borderColor: "primary.main",
@@ -92,8 +92,6 @@ export default function Profile() {
                   <ChangePassword />
                 </Box>
               </Modal>
-            </Box>
-            <Box sx={{ margin: "3vh 0 3vh 0" }}>
               <AuthButton userData={userData} />
             </Box>
           </Grid>
