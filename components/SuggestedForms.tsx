@@ -43,6 +43,7 @@ export default function ShowUserForms() {
         .from("form")
         .select()
         .is("deleted", null)
+        .eq("status", 3)
         .order("created", { ascending: false })
         .limit(3));
     } else {
@@ -50,6 +51,7 @@ export default function ShowUserForms() {
         .from("form")
         .select()
         .or(`user_id.neq.${userID},user_id.is.null`)
+        .or(`status.eq.3,status.eq.2`)
         .is("deleted", null)
         .order("created", { ascending: false })
         .limit(3));
@@ -123,9 +125,7 @@ export default function ShowUserForms() {
                 {form.title}
               </Button>
             </Box>
-            <Typography variant="subtitle1">
-              {form.description}
-            </Typography>
+            <Typography variant="subtitle1">{form.description}</Typography>
           </Grid>
         ))}
       </Grid>
