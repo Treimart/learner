@@ -17,16 +17,19 @@ Märten Treier, Kristel Kolkanen, Stella-Marii Roosileht
 
 ## Funktsionaalsused
 
-- Kasutajakonto loomine, kuvamine, muutmine, kustutamine (sh kasutajanimi, parool, meiliaadress, emakeel)
+- Kasutajakonto loomine, kuvamine, muutmine (sh meiliaadress, parool)
 - Kontoga sisse- ja väljalogimine
 
-* Küsimustiku loomine, kuvamine, muutmine, kustutamine (sh pealkiri, kirjeldus, kategooria, keel, privaatsus)
+* Küsimustiku loomine, kuvamine (sh pealkiri, kirjeldus, kategooria, privaatsus)
 * Küsimustiku kasutajakonto ajalukku salvestamine, lemmikuks märkimine (sh võimalus näha sinna lisatud küsimustikke)
-* Küsimustike kuvamine soovitusloendist, pealkirja, kategooria või autori nime kaudu otsingut tehes
+* Küsimustike kuvamine soovitusloendist, kategooriate nimekirjast
+* Omaloodud küsimustike kuvamine, privaatsuse muutmine, kustutamine
 
-- Küsimuste loomine, kuvamine, muutmine, kustutamine (sh küsimus, vastus, pilt, jkNr)
-- Küsimustele vastamine, nende vahel navigeerimine, küsitluse lõpetamine
-- Tagasiside (tulemuste) kuvamine peale küsitluse lõpetamist (sh statistika, enda ja õiged vastused)
+- Kategooriate loomine, kuvamine, kustutamine
+
+* Küsimuste loomine, kuvamine (sh küsimus, vastus, pilt, hinnatavus)
+* Küsimustele vastamine, nende vahel navigeerimine, küsitluse lõpetamine
+* Tulemuste kuvamine peale küsimustiku lõpetamist (võrdlus kasutaja ja õigete vastuste vahel)
 
 # Next.js ja Supabase (võib hiljem ära kustutada)
 
