@@ -51,6 +51,7 @@ export default function ShowUserForms() {
         .from("form")
         .select()
         .or(`user_id.neq.${userID},user_id.is.null`)
+        .or(`status.eq.3,status.eq.2`)
         .is("deleted", null)
         .order("created", { ascending: false })
         .limit(3));
