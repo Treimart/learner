@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 
-import { Box, Button, Typography, TextField, IconButton } from "@mui/material";
+import { Box, Button, Typography, TextField, IconButton, Tooltip } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 
@@ -257,17 +257,23 @@ export default function ViewQuestion() {
       >
         <Typography variant="h1">{formTitle}</Typography>
         {(userIDLoaded && userID != 0) && (
-          <IconButton onClick={saveNewFavorite}>
-            <StarIcon
-              fontSize="large"
-              sx={{
-                color: !fav ? "primary.main" : "#FFC861",
-                "&:hover": {
-                  color: "secondary.main",
-                },
-              }}
-            />
-          </IconButton>
+          <Tooltip
+            title="Märgi lemmikuks"
+            placement="top"
+            arrow
+          >
+            <IconButton onClick={saveNewFavorite}>
+              <StarIcon
+                fontSize="large"
+                sx={{
+                  color: !fav ? "primary.main" : "#FFC861",
+                  "&:hover": {
+                    color: "secondary.main",
+                  },
+                }}
+              />
+            </IconButton>
+          </Tooltip>
         )}
       </Box>
 
@@ -326,17 +332,23 @@ export default function ViewQuestion() {
               mt: 2,
             }}
           >
-            <IconButton onClick={markQuestion}>
-              <PriorityHighIcon
-                fontSize="medium"
-                sx={{
-                  color: "primary.main",
-                  "&:hover": {
-                    color: "secondary.main",
-                  },
-                }}
-              />
-            </IconButton>
+            <Tooltip
+              title="Märgista küsimus"
+              placement="top"
+              arrow
+            >
+              <IconButton onClick={markQuestion}>
+                <PriorityHighIcon
+                  fontSize="medium"
+                  sx={{
+                    color: "primary.main",
+                    "&:hover": {
+                      color: "secondary.main",
+                    },
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
             <Typography variant="subtitle1">
               Märgista küsimus, et hiljem selle juurde tagasi tulla
             </Typography>
