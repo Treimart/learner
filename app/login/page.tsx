@@ -53,28 +53,13 @@ export default function Login({
   }
 
   return (
-    <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-      <Link
-        href="/"
-        className="absolute left-8 top-8 py-2 px-4 rounded-md no-underline text-foreground bg-btn-background hover:bg-btn-background-hover flex items-center group text-sm"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>{' '}
-        Back
-      </Link>
-
+    <div style={{ 
+      display: "flex", 
+      flexDirection: "column", 
+      alignItems: 'center', 
+      width: 500, 
+      marginLeft: 350
+     }}>
       <form
         className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
         action={signIn}
@@ -89,7 +74,7 @@ export default function Login({
           required
         />
         <label className="text-md" htmlFor="password">
-          Password
+          Salasõna
         </label>
         <input
           className="rounded-md px-4 py-2 bg-inherit border mb-6"
@@ -98,14 +83,16 @@ export default function Login({
           placeholder="••••••••"
           required
         />
-        <button className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2">
-          Sign In
+        <button className="rounded-md px-4 py-2 text-foreground mb-2" 
+        style={{background:"#647360", color:"white"}}>
+          Logi sisse
         </button>
         <button
           formAction={signUp}
           className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
+          style={{background:"#BF6836", color:"white"}}
         >
-          Sign Up
+          Registreeru
         </button>
         {searchParams?.message && (
           <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
