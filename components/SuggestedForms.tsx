@@ -44,7 +44,7 @@ export default function ShowUserForms() {
       ({ data } = await supabase
         .from("form")
         .select()
-        .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
+        .is("deleted", null)
         .order("created", { ascending: false })
         .limit(3));
     } else {
@@ -52,7 +52,7 @@ export default function ShowUserForms() {
         .from("form")
         .select()
         .or(`user_id.neq.${userID},user_id.is.null`)
-        .or(`deleted.is.null,deleted.gt.${currentTimestamp}`)
+        .is("deleted", null)
         .order("created", { ascending: false })
         .limit(3));
     }
