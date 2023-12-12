@@ -1,11 +1,12 @@
 "use client";
 import AuthButton from "@/components/AuthButton";
-import { Box, Container, Grid, Button, Typography } from "@mui/material";
+import { Box, Container, Grid, Button, Typography, Modal } from "@mui/material";
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import ShowUserForms from "@/components/ShowUserForms";
 import ShowUserFavorites from "@/components/ShowUserFavorites";
 import ShowUserHistory from "@/components/ShowUserHistory";
+import ChangePassword from "@/components/ChangePassword";
 
 export default function Profile() {
   const supabase = createClientComponentClient();
@@ -17,6 +18,9 @@ export default function Profile() {
     id: "",
     email: undefined,
   });
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -57,10 +61,6 @@ export default function Profile() {
     return <div>{userHistoryItems}</div>;
   };
 
-  const resetPassword = async () => {
-    window.location.href = "/changePassword";
-  };
-
   let userInfoArray: string[] = [" "];
   if (userData && userData.email) {
     userInfoArray = [`Email: ${userData.email}`];
@@ -76,12 +76,37 @@ export default function Profile() {
             {renderUserInfoAndActions(userInfoArray)}
             <Box sx={{ margin: "3vh 0 3vh 0" }}>
               <Button
-                onClick={() => resetPassword()}
+                onClick={handleOpen}
                 variant="contained"
                 color="primary"
               >
                 Muuda parooli
               </Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx = {{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    minWidth: 300,
+                    minHeight: 322,
+                    bgcolor: 'background.paper',
+                    border: 1,
+                    borderColor: "primary.main",
+                    borderRadius: 2,
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <ChangePassword />
+                </Box>
+              </Modal>
             </Box>
             <Box sx={{ margin: "3vh 0 3vh 0" }}>
               <AuthButton userData={userData} />

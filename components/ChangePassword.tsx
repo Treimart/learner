@@ -28,17 +28,17 @@ export default function changePassword() {
       sx={{ 
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start'
+        alignItems: 'stretch',
       }}
     >
-      <Typography variant="h1">Muuda oma parooli</Typography>
+      <Typography variant="h3">Muuda parooli</Typography>
       <TextField
         type="password"
         label="Uus parool"
         variant="outlined"
         placeholder="Sisesta parool"
         sx={{
-          mt: 2
+          my: 3
         }}
         value={password}
         onChange={(e) => setPassword(e.target.value)}
