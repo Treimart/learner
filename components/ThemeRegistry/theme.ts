@@ -48,6 +48,9 @@ const theme = createTheme({
       marginTop: "10px",
       marginBottom: "10px"
     },
+    button: {
+      fontWeight: 600
+    }
   },
   components: {
     MuiTooltip: {
