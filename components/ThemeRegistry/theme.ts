@@ -10,9 +10,6 @@ const theme = createTheme({
     secondary: {
       main: "#BF6836",
       light: "#F4AD57",
-    },
-    background: {
-      default: "#8658F8"
     }
   },
   typography: {
@@ -59,8 +56,10 @@ const theme = createTheme({
       },
       styleOverrides: {
         tooltip: {
-          maxWidth: "120px",
+          maxWidth: "130px",
           textAlign: "center",
+          fontWeight: 600,
+          backgroundColor: "#142625"
         }
       }
     },
