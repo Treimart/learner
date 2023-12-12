@@ -31,7 +31,7 @@ export default async function RootLayout({
         <ThemeRegistry>
           <main className="min-h-screen flex flex-col items-center">
             <Navbar />
-            <Container style={{ marginTop: '10rem' }}>
+            <Container style={{ marginTop: '6rem' }}>
                 {children}
             </Container>
           </main>
